@@ -18,7 +18,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  examples:
+  # Checks every example, builds what runs fckt in the browser, then builds the site, all against
+  # fckt's main branch.
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,9 +43,13 @@ jobs:
       - uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: 5
+      - name: Install js_of_ocaml
+        run: opam install -y js_of_ocaml js_of_ocaml-ppx js_of_ocaml-toplevel
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: fckt-lang/package-lock.json
       - name: Build the compiler
         working-directory: fckt
         run: ./gradlew :installDist
@@ -52,22 +58,20 @@ jobs:
         run: opam exec -- node scripts/check-examples.mjs
         env:
           FCKT: ${{ github.workspace }}/fckt/build/install/fckt/bin/fckt
-
-  build:
-    needs: examples
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run build
+      - name: Build the playground
+        working-directory: fckt-lang
+        run: opam exec -- playground/build.sh
+        env:
+          FCKT_REPO: ${{ github.workspace }}/fckt
+      - name: Build the site
+        working-directory: fckt-lang
+        run: |
+          npm ci
+          npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/.vitepress/dist
+          path: fckt-lang/docs/.vitepress/dist
 
   deploy:
     needs: build

@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import fckt from './fckt.tmLanguage.json'
 import { inlineFckt } from './inline-code'
+import { runnable } from './runnable'
 
 const highlightInline = await inlineFckt(fckt)
 
@@ -12,16 +13,20 @@ export default defineConfig({
   head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/fckt-lang/favicon.svg' }]],
   markdown: {
     languages: [{ ...(fckt as any), name: 'fckt', aliases: ['fk'] }],
-    config: highlightInline,
+    config: md => {
+      highlightInline(md)
+      runnable(md)
+    },
   },
   themeConfig: {
     logo: { light: '/lockup-outlined.svg', dark: '/lockup-outlined-dark.svg', alt: 'fckt' },
     siteTitle: false,
     nav: [
-      { text: 'Docs', link: '/getting-started', activeMatch: '^/(?!standard-library/|libraries/|examples/|$)' },
+      { text: 'Docs', link: '/getting-started', activeMatch: '^/(?!standard-library/|libraries/|examples/|playground|$)' },
       { text: 'Standard library', link: '/standard-library/', activeMatch: '^/standard-library/' },
       { text: 'Libraries', link: '/libraries/', activeMatch: '^/libraries/' },
       { text: 'Examples', link: '/examples/', activeMatch: '^/examples/' },
+      { text: 'Playground', link: '/playground' },
     ],
     sidebar: {
       '/standard-library/': [

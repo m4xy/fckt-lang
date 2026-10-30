@@ -1,3 +1,5 @@
 node_modules/
 docs/.vitepress/dist/
 docs/.vitepress/cache/
+docs/public/playground/compiler.js
+docs/public/playground/toplevel.js

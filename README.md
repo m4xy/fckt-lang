@@ -16,6 +16,26 @@ npm run build     # writes docs/.vitepress/dist
 npm run check     # compiles and runs every example (needs fckt and ocaml; FCKT= picks the compiler)
 ```
 
+## Running fckt in the browser
+
+The [playground](https://m4xy.github.io/fckt-lang/playground) and the Run button on the docs'
+examples compile and run fckt in the reader's browser, with nothing sent to a server.
+`playground/build.sh` builds what they need into `docs/public/playground`:
+
+- `compiler.js` is fckt's self-hosted compiler, compiled to JavaScript with js_of_ocaml, with the
+  core and standard library's source in its pseudo filesystem. `web_entry.py` gives it the
+  `fcktCompile(source)` a page calls instead of its command line, and `stubs.js` what js_of_ocaml
+  lacks.
+- `toplevel.js` is an OCaml toplevel with fckt's core and standard library loaded, which runs the
+  OCaml the compiler writes (`top.ml`).
+
+Each runs in a worker (`compile-worker.js`, `run-worker.js`), loaded on the first run. It needs a
+fckt checkout (`FCKT_REPO`, by default `../fckt`) with its compiler built, and an opam switch with
+`js_of_ocaml`, `js_of_ocaml-ppx` and `js_of_ocaml-toplevel`. An example is made into a program as
+`docs/.vitepress/examples.js` says, the same way `npm run check` makes it, so what the Run button
+runs is what the deploy checked. Pages under `docs/libraries` and `docs/examples`, and the kiln and
+testing pages, need kiln libraries and have no Run button.
+
 ## Examples are checked
 
 `npm run check` turns each ` ```fckt ` block into a program, compiles it, runs it, and compares

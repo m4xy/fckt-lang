@@ -72,3 +72,148 @@
 .DocSearch-Button-Keys {
   display: none !important;
 }
+
+/* Examples that run: the code block, then its Run bar, then what it printed. */
+.fckt-runnable {
+  margin: 16px 0;
+}
+.fckt-runnable > div[class*='language-'] {
+  margin: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.fckt-runnable.editing > div[class*='language-'] {
+  display: none;
+}
+.fckt-runnable-editor {
+  background: var(--vp-code-block-bg);
+  border-radius: 8px 8px 0 0;
+}
+.fckt-runnable-bar,
+.fckt-playground-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.fckt-runnable-bar {
+  padding: 8px 12px;
+  background: var(--vp-code-block-bg);
+  border-top: 1px solid var(--vp-c-divider);
+  border-radius: 0 0 8px 8px;
+}
+.fckt-run,
+.fckt-secondary,
+.fckt-examples select {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--vp-font-family-base);
+}
+.fckt-run {
+  background: var(--vp-button-brand-bg);
+  color: var(--vp-button-brand-text);
+}
+.fckt-run:hover:not(:disabled) {
+  background: var(--vp-button-brand-hover-bg);
+}
+.fckt-run:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+.fckt-secondary,
+.fckt-examples select {
+  border: 1px solid var(--vp-c-divider);
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg);
+}
+.fckt-secondary:hover,
+.fckt-examples select:hover {
+  border-color: var(--vp-c-brand-1);
+}
+.fckt-output {
+  margin-top: 8px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+  font-size: 13px;
+}
+.fckt-output pre,
+.fckt-playground-output pre {
+  margin: 0;
+  font-family: var(--vp-font-family-mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.fckt-output p {
+  margin: 0;
+  color: var(--vp-c-text-2);
+}
+.fckt-output.error,
+.fckt-output.stopped,
+.fckt-playground-output.error,
+.fckt-playground-output.stopped {
+  border-color: var(--vp-c-danger-1);
+  color: var(--vp-c-danger-1);
+}
+
+/* The playground: the editor beside what it printed, one above the other on a phone. */
+.fckt-playground {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.fckt-hint {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+}
+.fckt-playground-panes {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 12px;
+}
+.fckt-playground-editor {
+  background: var(--vp-code-block-bg);
+  border-radius: 8px;
+}
+.fckt-playground-output {
+  padding: 20px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+  font-size: var(--vp-code-font-size);
+  line-height: var(--vp-code-line-height);
+}
+.fckt-quiet {
+  margin: 0;
+  color: var(--vp-c-text-2);
+  font-family: var(--vp-font-family-base);
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+@media (max-width: 768px) {
+  .fckt-playground-panes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .fckt-hint {
+    display: none;
+  }
+}
+@media (max-width: 639px) {
+  .fckt-runnable > div[class*='language-'],
+  .fckt-runnable-editor,
+  .fckt-runnable-bar {
+    margin: 0 -24px;
+    border-radius: 0;
+  }
+}

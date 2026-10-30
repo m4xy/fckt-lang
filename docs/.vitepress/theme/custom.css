@@ -12,6 +12,8 @@
 
   --vp-font-family-base: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
   --vp-font-family-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  /* What a program prints is set in the reader's own terminal font, so it reads as a console. */
+  --fckt-console-font: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', 'DejaVu Sans Mono', monospace;
 
   --vp-c-brand-1: #1E4F82;
   --vp-c-brand-2: #2A64A0;
@@ -233,7 +235,7 @@
 .fckt-playground-output {
   position: relative;
   background: var(--vp-code-block-bg);
-  font-family: var(--vp-font-family-mono);
+  font-family: var(--fckt-console-font);
   font-size: var(--vp-code-font-size);
   line-height: var(--vp-code-line-height);
 }
@@ -259,7 +261,7 @@
 .fckt-output pre,
 .fckt-playground-output pre {
   margin: 0;
-  font-family: var(--vp-font-family-mono);
+  font-family: var(--fckt-console-font);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }

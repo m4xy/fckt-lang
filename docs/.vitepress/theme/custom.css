@@ -478,3 +478,21 @@
 .VPDocFooter .pager-link:hover {
   border-color: var(--fckt-here-line);
 }
+
+/* The main buttons, Get started and the playground's Run, in the deep teal and blue from the middle
+   of the logo's gradient, with white on top, in both themes. */
+:root {
+  --fckt-button: linear-gradient(90deg, #0F5E5C, #1E4F82);
+  --fckt-button-hover: linear-gradient(90deg, #137370, #275F9A);
+}
+.VPButton.brand,
+.fckt-run {
+  border-color: transparent !important;
+  background-color: #175675 !important;
+  background-image: var(--fckt-button) !important;
+  color: #FFFFFF !important;
+}
+.VPButton.brand:hover,
+.fckt-run:hover:not(:disabled) {
+  background-image: var(--fckt-button-hover) !important;
+}

@@ -40,7 +40,7 @@ function reset() {
 </script>
 
 <template>
-  <div v-if="editing" class="fckt-runnable-editor">
+  <div v-if="editing" class="fckt-runnable-editor fckt-glass-ring">
     <FcktEditor v-model="code" label="Edit this example" @run="start" />
   </div>
   <div class="fckt-runnable-bar">

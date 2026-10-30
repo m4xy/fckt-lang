@@ -92,9 +92,6 @@ defineExpose({ focus: () => textarea.value?.focus() })
   caret-color: var(--vp-c-text-1);
   outline: none;
 }
-.fckt-editor:focus-within {
-  box-shadow: inset 0 0 0 1px var(--vp-c-brand-1);
-}
 .fckt-editor > textarea::selection {
   background: var(--vp-c-brand-soft);
 }

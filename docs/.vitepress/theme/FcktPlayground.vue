@@ -77,7 +77,9 @@ async function share() {
       <span class="fckt-hint">Ctrl or ⌘ + Enter runs it</span>
     </div>
     <div class="fckt-playground-panes">
-      <FcktEditor v-model="code" class="fckt-playground-editor" label="Program" :min-lines="18" @run="start" />
+      <div class="fckt-playground-editor fckt-glass-ring">
+        <FcktEditor v-model="code" label="Program" :min-lines="18" @run="start" />
+      </div>
       <div class="fckt-playground-output" :class="outcome?.kind" role="status" aria-live="polite">
         <p v-if="running" class="fckt-quiet">Compiling and running…</p>
         <p v-else-if="!outcome" class="fckt-quiet">What the program prints shows here. The first run loads the compiler, so it takes a moment longer.</p>

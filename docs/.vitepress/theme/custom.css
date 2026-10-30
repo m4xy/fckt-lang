@@ -116,24 +116,39 @@
   background: var(--vp-code-block-bg);
   border-radius: 8px;
 }
-/* Beside the copy button, which sits 12px from the corner; it's gone while editing. */
+/* Beside the copy button, which sits 12px from the corner and is gone while editing. All the
+   corner's buttons show together: while the pointer is on the code or on any of them, or one has
+   focus. */
 .fckt-runnable-controls {
   position: absolute;
   top: 12px;
   right: 60px;
   z-index: 3;
   display: flex;
-  gap: 6px;
+  gap: 8px;
   opacity: 0;
   transition: opacity 0.25s;
 }
 .fckt-runnable.editing .fckt-runnable-controls {
   right: 12px;
 }
-.fckt-runnable:hover .fckt-runnable-controls,
+.fckt-runnable:has(> div[class*='language-']:hover) .fckt-runnable-controls,
+.fckt-runnable:has(> div[class*='language-'] > button.copy:focus) .fckt-runnable-controls,
+.fckt-runnable-controls:hover,
 .fckt-runnable-controls:focus-within,
 .fckt-runnable-controls.shown {
   opacity: 1;
+}
+.vp-doc .fckt-runnable:has(.fckt-runnable-controls:hover, .fckt-runnable-controls:focus-within) > div[class*='language-'] > button.copy {
+  opacity: 1;
+}
+.vp-doc .fckt-runnable:has(.fckt-runnable-controls:hover, .fckt-runnable-controls:focus-within) > div[class*='language-'] > span.lang {
+  opacity: 0;
+}
+/* "Copied" opens to the left of the copy button, where these are, so they make way for it. */
+.fckt-runnable:has(button.copy.copied) .fckt-runnable-controls {
+  opacity: 0;
+  pointer-events: none;
 }
 @media (hover: none) {
   .fckt-runnable-controls {
@@ -145,6 +160,8 @@
   width: 40px;
   height: 40px;
   padding: 0 !important;
+  border: 1px solid transparent;
+  border-radius: 4px !important;
 }
 .fckt-icon.fckt-secondary {
   border-color: var(--vp-code-copy-code-border-color);

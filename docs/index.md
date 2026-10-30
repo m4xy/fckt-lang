@@ -4,7 +4,7 @@ layout: home
 hero:
   name: fckt
   text: Frankly functional.
-  tagline: Write concise programs, and keep the side effects separate.
+  tagline: Designed for writing applications concisely, expressively and effectively.
   image:
     light: /mark.svg
     dark: /mark-dark.svg

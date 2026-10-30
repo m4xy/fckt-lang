@@ -15,7 +15,7 @@ export default defineConfig({
     config: highlightInline,
   },
   themeConfig: {
-    logo: { light: '/lockup.svg', dark: '/lockup-dark.svg', alt: 'fckt' },
+    logo: { light: '/lockup-outlined.svg', dark: '/lockup-outlined-dark.svg', alt: 'fckt' },
     siteTitle: false,
     nav: [
       { text: 'Docs', link: '/getting-started', activeMatch: '^/(?!standard-library/|libraries/|examples/|$)' },

@@ -5,7 +5,8 @@ The home of [fckt](https://github.com/m4xy/fckt): its documentation site and its
 - `docs/` is the site, built with [VitePress](https://vitepress.dev). Pages are Markdown; code in
   ` ```fckt ` blocks is highlighted with the grammar from fckt's `editors/vscode`.
 - `brand/` holds the logo: `lockup.svg` and `lockup-dark.svg` (the wordmark), `mark.svg` and
-  `mark-dark.svg` (the ƒ on its own), `app-icon.svg` and `favicon.svg`. The letters are outlines,
+  `mark-dark.svg` (the ƒ on its own), `lockup-outlined.svg` and `lockup-outlined-dark.svg` (the wordmark
+  in a frame as thick as its letters, used in the site's header), `app-icon.svg` and `favicon.svg`. The letters are outlines,
   so the files need no fonts.
 
 ```sh

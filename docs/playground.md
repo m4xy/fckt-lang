@@ -7,7 +7,7 @@ title: Playground
 
 # Playground
 
-Write a fckt program and run it. It's compiled and run in your browser, so nothing you write is sent anywhere.
+Write a fckt program and run it. It's compiled and run in your browser.
 
 <FcktPlayground />
 

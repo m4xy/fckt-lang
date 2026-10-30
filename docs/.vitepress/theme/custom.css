@@ -385,7 +385,8 @@
 
 /* Where you are, in the sidebar, the outline and the top bar: the text colour with the teal and
    blue from the middle of the logo's gradient mixed in, its deep shades on light, as the ƒ is, and
-   its bright ones on dark. The top bar has no line beside it, so it takes more. */
+   its bright ones on dark. The sidebar takes more, and the top bar, with no line beside it, more
+   again. */
 :root {
   --fckt-here: var(--vp-c-text-1);
   --fckt-here-across: linear-gradient(90deg,
@@ -397,6 +398,13 @@
   --fckt-here-down: linear-gradient(180deg,
     color-mix(in oklab, #0F5E5C 60%, var(--fckt-here)),
     color-mix(in oklab, #1E4F82 60%, var(--fckt-here)));
+  --fckt-here-side: linear-gradient(90deg,
+    color-mix(in oklab, #0F5E5C 80%, var(--fckt-here)),
+    color-mix(in oklab, #1E4F82 80%, var(--fckt-here)));
+  --fckt-here-line: color-mix(in oklab, #1E4F82 80%, var(--fckt-here));
+  --fckt-here-side-down: linear-gradient(180deg,
+    color-mix(in oklab, #0F5E5C 80%, var(--fckt-here)),
+    color-mix(in oklab, #1E4F82 80%, var(--fckt-here)));
 }
 .dark {
   --fckt-here-across: linear-gradient(90deg,
@@ -408,6 +416,13 @@
   --fckt-here-down: linear-gradient(180deg,
     color-mix(in oklab, #1FBFAE 45%, var(--fckt-here)),
     color-mix(in oklab, #3A8FD6 45%, var(--fckt-here)));
+  --fckt-here-side: linear-gradient(90deg,
+    color-mix(in oklab, #1FBFAE 65%, var(--fckt-here)),
+    color-mix(in oklab, #3A8FD6 65%, var(--fckt-here)));
+  --fckt-here-line: color-mix(in oklab, #3A8FD6 65%, var(--fckt-here));
+  --fckt-here-side-down: linear-gradient(180deg,
+    color-mix(in oklab, #1FBFAE 65%, var(--fckt-here)),
+    color-mix(in oklab, #3A8FD6 65%, var(--fckt-here)));
 }
 .VPSidebarItem.is-active > .item .link > .text,
 .VPDocOutlineItem .outline-link.active,
@@ -420,6 +435,7 @@
 /* The gradient spans the words, not the whole row or the link's padding. */
 .VPSidebarItem.is-active > .item .link > .text {
   flex-grow: 0;
+  background-image: var(--fckt-here-side);
 }
 .VPNavBarMenuLink.active {
   background-image: var(--fckt-here-strong);
@@ -431,4 +447,34 @@
 .VPSidebarItem.is-active > .item > .indicator,
 .VPDocAsideOutline .outline-marker {
   background: var(--fckt-here-down) !important;
+}
+.VPSidebarItem.is-active > .item > .indicator {
+  background: var(--fckt-here-side-down) !important;
+}
+
+/* Links in the text take the sidebar's tint, a line at a time, with the underline in its blue. */
+.vp-doc a:not(.header-anchor) {
+  background-image: var(--fckt-here-side);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  color: transparent;
+  text-decoration-color: var(--fckt-here-line);
+}
+.vp-doc a:not(.header-anchor):hover {
+  color: transparent;
+  text-decoration-thickness: 2px;
+}
+
+/* The previous and next page links at the foot of a page, in the same tint. */
+.VPDocFooter .pager-link .title {
+  display: inline-block;
+  background-image: var(--fckt-here-side);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.VPDocFooter .pager-link:hover {
+  border-color: var(--fckt-here-line);
 }

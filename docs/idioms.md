@@ -161,8 +161,7 @@ captured(): List<String> = {
 captured()                      // [one, two]
 ```
 
-Notice that `captured` doesn't declare `@Console`. It handles the effect itself, so nothing it does
-reaches the real console, and the compiler treats it as pure.
+`captured` doesn't declare `@Console`, because it handles the effect itself.
 
 ## Compute something only when needed
 

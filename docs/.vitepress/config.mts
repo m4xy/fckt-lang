@@ -18,7 +18,7 @@ export default defineConfig({
     logo: { light: '/lockup.svg', dark: '/lockup-dark.svg', alt: 'fckt' },
     siteTitle: false,
     nav: [
-      { text: 'Docs', link: '/getting-started', activeMatch: '^/(getting-started|basic-syntax|idioms|coming-from-kotlin)' },
+      { text: 'Docs', link: '/getting-started', activeMatch: '^/(getting-started|basic-syntax|idioms)' },
       { text: 'kiln', link: 'https://github.com/m4xy/kiln' },
     ],
     sidebar: [
@@ -28,7 +28,6 @@ export default defineConfig({
           { text: 'Getting started', link: '/getting-started' },
           { text: 'Basic syntax', link: '/basic-syntax' },
           { text: 'Idioms', link: '/idioms' },
-          { text: 'Coming from Kotlin', link: '/coming-from-kotlin' },
         ],
       },
     ],

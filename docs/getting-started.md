@@ -147,4 +147,3 @@ Each folder has a README that explains how to install it.
 
 - [Basic syntax](/basic-syntax) walks through the language one feature at a time.
 - [Idioms](/idioms) shows how to do common things.
-- [Coming from Kotlin](/coming-from-kotlin) lists what's the same and what's different.

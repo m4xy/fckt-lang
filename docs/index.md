@@ -21,7 +21,7 @@ features:
   - title: Easy to read
     details: Records, pattern matching, string templates and trailing lambdas, in a clean syntax that will look familiar if you've written Kotlin. Values don't change unless you say they can.
   - title: Effects you can see
-    details: If a function prints, reads a file or can fail, its declaration says so. If it says nothing, it's pure, and the compiler makes sure it stays that way.
+    details: If a function prints, reads a file or can fail, its declaration says so. If it says nothing, it's pure.
   - title: Tests without mocks
     details: Printing, files and the clock all go through effects. A test can handle them itself, so you can test code that does I/O without touching the disk or the terminal.
   - title: Modules that fit together

@@ -1,7 +1,6 @@
 # Basic syntax
 
-This page walks through the parts of fckt you'll use every day, with a short example for each. If
-you already write Kotlin, [Coming from Kotlin](/coming-from-kotlin) covers what's different.
+This page walks through the parts of fckt you'll use every day, with a short example for each.
 
 ## Packages and imports
 
@@ -163,8 +162,8 @@ maxOf(a: Int, b: Int) = if (a > b) a else b
 
 ## when
 
-Use `when` to check a value against several possibilities. fckt makes sure you've handled every
-case. If you forget one, the compiler tells you which:
+Use `when` to check a value against several possibilities. It has to handle every case, and if
+one is missing, the error says which:
 
 ```fckt
 area(shape: Shape): Float = when (shape) {
@@ -230,8 +229,6 @@ fckt has no `null`. When a value might not be there, its type is `Option`, and i
 ["a"].firstOrNone().getOrElse("none")
 ```
 
-Because the type says the value might be missing, you can't forget to check.
-
 ## Result
 
 When something can go wrong, return a `Result`. It holds either `Ok(value)` or
@@ -248,8 +245,7 @@ The `if n >= 0` on the first branch is a guard: the branch only matches when it'
 
 ## Pipes and tuples
 
-`|>` passes the value on its left to the function on its right. It's useful for reading a chain of
-steps from left to right:
+`|>` passes the value on its left to the function on its right:
 
 ```fckt
 xs |> doubleAll                 // doubleAll(xs)
@@ -266,8 +262,7 @@ A tuple groups a few values together without defining a type. You can unpack one
 
 An effect is anything a function does apart from returning a value: printing, reading a file,
 asking for the time. In fckt, a function lists the effects it uses before its name. A function that
-lists none is pure. It can only compute its result, and the compiler won't let it do anything
-else.
+lists none is pure: it can only compute its result.
 
 You can define effects of your own. Here, `Clock` has one operation, `now`, and `stamped` uses
 both `Clock` and `Console`:
@@ -293,8 +288,7 @@ main() = Clock(now = ~42) { stamped("started") }
 
 `~42` is shorthand for a function that ignores its arguments and returns 42.
 
-This is what makes code with effects easy to test: a test can handle `Console` itself and collect
-what would have been printed. There's an example in [Idioms](/idioms#test-code-that-does-i-o).
+A test can handle `Console` the same way and collect what would have been printed. There's an example in [Idioms](/idioms#test-code-that-does-i-o).
 
 As mentioned earlier, `main` doesn't have to list its effects. It can do anything, and the program
 handles them for it. `Console`, for example, is connected to the terminal.

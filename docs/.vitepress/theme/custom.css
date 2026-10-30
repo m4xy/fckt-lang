@@ -196,17 +196,15 @@
   font-weight: 500;
   font-family: var(--vp-font-family-base);
 }
+/* The playground's Run is the site's main button, as Get started is. */
 .fckt-run {
-  background: var(--fckt-glass);
-  color: #0F1C26;
-  transition: filter 0.2s;
-}
-.dark .fckt-run {
-  background: var(--fckt-glass-deep);
-  color: #E4EFEE;
+  border: 1px solid var(--vp-button-brand-border);
+  background: var(--vp-button-brand-bg);
+  color: var(--vp-button-brand-text);
+  transition: background-color 0.25s;
 }
 .fckt-run:hover:not(:disabled) {
-  filter: brightness(1.08) saturate(1.1);
+  background: var(--vp-button-brand-hover-bg);
 }
 .fckt-run:focus-visible {
   outline: 2px solid var(--vp-c-brand-1);
@@ -259,7 +257,7 @@
   mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
   animation: fckt-spin 0.9s linear infinite;
 }
-/* On the Run button, which is the gradient already, the ring is the button's ink, fading round. */
+/* On a button, the ring is the button's own colour, fading round. */
 .fckt-spinner.on-glass {
   margin: 0;
   background: conic-gradient(from 0deg, transparent, currentColor);
@@ -385,26 +383,46 @@
   }
 }
 
-/* Where you are, in the sidebar, the outline and the top bar, in the logo's gradient: the deep
-   shades on light, as the ƒ is, and the bright sea glass on dark. */
+/* Where you are, in the sidebar, the outline and the top bar: the text colour with the teal and
+   blue from the middle of the logo's gradient mixed in, its deep shades on light, as the ƒ is, and
+   its bright ones on dark. The top bar has no line beside it, so it takes more. */
+:root {
+  --fckt-here: var(--vp-c-text-1);
+  --fckt-here-across: linear-gradient(90deg,
+    color-mix(in oklab, #0F5E5C 60%, var(--fckt-here)),
+    color-mix(in oklab, #1E4F82 60%, var(--fckt-here)));
+  --fckt-here-strong: linear-gradient(90deg,
+    color-mix(in oklab, #0F5E5C 90%, var(--fckt-here)),
+    color-mix(in oklab, #1E4F82 90%, var(--fckt-here)));
+  --fckt-here-down: linear-gradient(180deg,
+    color-mix(in oklab, #0F5E5C 60%, var(--fckt-here)),
+    color-mix(in oklab, #1E4F82 60%, var(--fckt-here)));
+}
+.dark {
+  --fckt-here-across: linear-gradient(90deg,
+    color-mix(in oklab, #1FBFAE 45%, var(--fckt-here)),
+    color-mix(in oklab, #3A8FD6 45%, var(--fckt-here)));
+  --fckt-here-strong: linear-gradient(90deg,
+    color-mix(in oklab, #1FBFAE 75%, var(--fckt-here)),
+    color-mix(in oklab, #3A8FD6 75%, var(--fckt-here)));
+  --fckt-here-down: linear-gradient(180deg,
+    color-mix(in oklab, #1FBFAE 45%, var(--fckt-here)),
+    color-mix(in oklab, #3A8FD6 45%, var(--fckt-here)));
+}
 .VPSidebarItem.is-active > .item .link > .text,
 .VPDocOutlineItem .outline-link.active,
 .VPNavBarMenuLink.active {
-  background-image: var(--fckt-glass-deep-across);
+  background-image: var(--fckt-here-across);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent !important;
-}
-.dark .VPSidebarItem.is-active > .item .link > .text,
-.dark .VPDocOutlineItem .outline-link.active,
-.dark .VPNavBarMenuLink.active {
-  background-image: var(--fckt-glass-across);
 }
 /* The gradient spans the words, not the whole row or the link's padding. */
 .VPSidebarItem.is-active > .item .link > .text {
   flex-grow: 0;
 }
 .VPNavBarMenuLink.active {
+  background-image: var(--fckt-here-strong);
   background-origin: content-box;
 }
 .VPDocOutlineItem .outline-link.active {
@@ -412,9 +430,5 @@
 }
 .VPSidebarItem.is-active > .item > .indicator,
 .VPDocAsideOutline .outline-marker {
-  background: var(--fckt-glass-deep) !important;
-}
-.dark .VPSidebarItem.is-active > .item > .indicator,
-.dark .VPDocAsideOutline .outline-marker {
-  background: var(--fckt-glass) !important;
+  background: var(--fckt-here-down) !important;
 }

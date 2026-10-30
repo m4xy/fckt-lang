@@ -46,7 +46,7 @@ function reset() {
     <FcktEditor v-model="code" label="Edit this example" @run="start" />
   </div>
   <div class="fckt-runnable-controls" :class="{ shown: editing || running }">
-    <button type="button" class="fckt-icon fckt-run" :aria-label="running ? 'Running' : 'Run'" :title="running ? 'Running…' : 'Run'" :aria-busy="running" :disabled="running" @click="start">
+    <button type="button" class="fckt-icon fckt-secondary" :aria-label="running ? 'Running' : 'Run'" :title="running ? 'Running…' : 'Run'" :aria-busy="running" :disabled="running" @click="start">
       <span v-if="running" class="fckt-spinner on-glass" aria-hidden="true"></span>
       <svg v-else aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L7.5 3.64A1 1 0 0 0 6 4.5z" /></svg>
     </button>

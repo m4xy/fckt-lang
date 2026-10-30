@@ -68,6 +68,10 @@ export function nameOf(item) {
 
 export const isMain = code => /^(@\S+ |@.*\n)*main\(/m.test(code)
 
+// Whether running an example shows anything: it has a main, or code that runs rather than only
+// declarations and values.
+export const runsSomething = code => isMain(code) || itemsOf(code).some(item => !isDeclaration(item) && !BINDING.test(item[0]))
+
 // The items of an example that later examples on the same page can use.
 function contextOf(code) {
   return itemsOf(code)

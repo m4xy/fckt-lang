@@ -1,12 +1,12 @@
 import type MarkdownIt from 'markdown-it'
-import { contextAfter } from './examples.js'
+import { contextAfter, runsSomething } from './examples.js'
 
 // Pages whose examples need libraries built with kiln, which a browser can't run.
 const notRunnable = [/^libraries\//, /^examples\//, /^kiln\.md$/, /^testing\.md$/]
 
 const attribute = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
-// Marks each fckt example that can run in the browser with what earlier examples on its page
+// Marks each fckt example that can run in the browser, and shows something when it does, with what earlier examples on its page
 // declared, so the Run button can make it into the same program the examples checker runs.
 export function runnable(md: MarkdownIt) {
   md.core.ruler.push('fckt-runnable', state => {
@@ -18,7 +18,9 @@ export function runnable(md: MarkdownIt) {
       if (lang !== 'fckt' || words.includes('no-check')) return
       const next = state.tokens[i + 1]
       const meantToFail = next?.type === 'fence' && ['', 'text'].includes(next.info.trim()) && next.content.startsWith('error:')
-      if (!words.includes('compiles')) token.meta = { ...token.meta, fcktContext: context }
+      // An example that only declares things prints nothing, so it has nothing to run, unless it's
+      // meant not to compile, when running it shows the error.
+      if (!words.includes('compiles') && (meantToFail || runsSomething(token.content))) token.meta = { ...token.meta, fcktContext: context }
       context = contextAfter(context, token.content, meantToFail)
     })
   })

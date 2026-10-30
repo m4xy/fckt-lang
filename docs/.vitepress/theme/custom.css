@@ -101,34 +101,71 @@
   opacity: 1;
 }
 
-/* Examples that run: the code block, then its Run bar, then what it printed. */
+/* Examples that run: the code block, with Run and Edit in its corner on hover, then what it printed. */
 .fckt-runnable {
+  position: relative;
   margin: 16px 0;
 }
 .fckt-runnable > div[class*='language-'] {
   margin: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
 }
 .fckt-runnable.editing > div[class*='language-'] {
   display: none;
 }
 .fckt-runnable-editor {
   background: var(--vp-code-block-bg);
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px;
 }
-.fckt-runnable-bar,
+/* Beside the copy button, which sits 12px from the corner; it's gone while editing. */
+.fckt-runnable-controls {
+  position: absolute;
+  top: 12px;
+  right: 60px;
+  z-index: 3;
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.fckt-runnable.editing .fckt-runnable-controls {
+  right: 12px;
+}
+.fckt-runnable:hover .fckt-runnable-controls,
+.fckt-runnable-controls:focus-within,
+.fckt-runnable-controls.shown {
+  opacity: 1;
+}
+@media (hover: none) {
+  .fckt-runnable-controls {
+    opacity: 1;
+  }
+}
+.fckt-icon {
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0 !important;
+}
+.fckt-icon.fckt-secondary {
+  border-color: var(--vp-code-copy-code-border-color);
+  background-color: var(--vp-code-copy-code-bg);
+  color: var(--vp-code-copy-code-active-text, var(--vp-c-text-2));
+}
+.fckt-icon.fckt-secondary:hover {
+  border-color: var(--vp-code-copy-code-hover-border-color);
+  background-color: var(--vp-code-copy-code-hover-bg);
+}
+.fckt-run[aria-busy='true'] svg {
+  animation: fckt-pulse 1s ease-in-out infinite;
+}
+@keyframes fckt-pulse {
+  50% { opacity: 0.35; }
+}
 .fckt-playground-bar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-}
-.fckt-runnable-bar {
-  padding: 8px 12px;
-  background: var(--vp-code-block-bg);
-  border-top: 1px solid var(--vp-c-divider);
-  border-radius: 0 0 8px 8px;
 }
 .fckt-run,
 .fckt-secondary,
@@ -251,10 +288,14 @@
   }
 }
 @media (max-width: 639px) {
-  .fckt-runnable > div[class*='language-'],
-  .fckt-runnable-editor,
-  .fckt-runnable-bar {
+  .fckt-runnable-editor {
     margin: 0 -24px;
     border-radius: 0;
+  }
+  .fckt-runnable-controls {
+    right: 36px;
+  }
+  .fckt-runnable.editing .fckt-runnable-controls {
+    right: -12px;
   }
 }

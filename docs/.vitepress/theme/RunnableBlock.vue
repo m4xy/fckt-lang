@@ -43,13 +43,16 @@ function reset() {
   <div v-if="editing" class="fckt-runnable-editor fckt-glass-ring">
     <FcktEditor v-model="code" label="Edit this example" @run="start" />
   </div>
-  <div class="fckt-runnable-bar">
-    <button type="button" class="fckt-run" :disabled="running" @click="start">
-      <svg aria-hidden="true" viewBox="0 0 16 16" width="12" height="12"><path d="M4 2.5v11l9-5.5z" fill="currentColor" /></svg>
-      {{ running ? 'Running…' : 'Run' }}
+  <div class="fckt-runnable-controls" :class="{ shown: editing || running }">
+    <button type="button" class="fckt-icon fckt-run" :aria-label="running ? 'Running' : 'Run'" :title="running ? 'Running…' : 'Run'" :aria-busy="running" :disabled="running" @click="start">
+      <svg aria-hidden="true" viewBox="0 0 16 16" width="14" height="14"><path d="M4.5 2.5v11l9-5.5z" fill="currentColor" /></svg>
     </button>
-    <button v-if="!editing" type="button" class="fckt-secondary" @click="edit">Edit</button>
-    <button v-else type="button" class="fckt-secondary" @click="reset">Reset</button>
+    <button v-if="!editing" type="button" class="fckt-icon fckt-secondary" aria-label="Edit" title="Edit" @click="edit">
+      <svg aria-hidden="true" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M10.5 2.5l3 3-8 8H2.5v-3z" /><path d="M9 4l3 3" /></svg>
+    </button>
+    <button v-else type="button" class="fckt-icon fckt-secondary" aria-label="Reset" title="Reset" @click="reset">
+      <svg aria-hidden="true" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 3v3.5H6" /><path d="M3 9.5a5 5 0 1 0 .9-4.6L2.5 6.5" /></svg>
+    </button>
   </div>
   <div v-if="outcome" class="fckt-output" :class="outcome.kind" role="status">
     <pre v-if="outcome.text">{{ outcome.text }}</pre>

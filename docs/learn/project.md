@@ -3,15 +3,16 @@
 The last lesson uses most of what came before: a type with cases, `when`, records, lists and
 `Result`.
 
-A to-do list is a list of tasks. Commands change it: `Add` puts a task on the end, `Finish` marks
-one done by its number, counting from 1, and `ClearDone` removes the finished ones. Finishing a
-task that isn't there is an error.
+A to-do list is a list of tasks. Commands change it: `Add` puts a task on the end, `Finish` marks a
+task done by its title, and `ClearDone` removes the finished ones. Finishing a task that isn't on
+the list is an error: `there's no task called ` and the title, like `there's no task called Walk the
+dog`.
 
-`mapIndexed` is like `map`, but its block gets each item's position as well, counting from 0.
-`foldResult` is like `fold`, but its block gives back a `Result`, and it stops at the first `Error`.
+`any` says whether any item passes a test. `foldResult` is like `fold`, but its block gives back a
+`Result`, and it stops at the first `Error`:
 
 ```fckt
-[10, 20, 30].mapIndexed { i, n -> n + i }                 // [10, 21, 32]
+["milk", "docs"].any { it == "docs" }                       // true
 [1, 2, 3].foldResult(0) { total, n -> if (n < 0) Error("$n is negative") else Ok(total + n) }
 // Ok(6)
 ```
@@ -26,7 +27,7 @@ type Task(title: String, done: Boolean = false)
 
 type Command {
   Add(title: String)
-  Finish(number: Int)
+  Finish(title: String)
   ClearDone
 }
 
@@ -40,15 +41,15 @@ type Task(title: String, done: Boolean = false)
 
 type Command {
   Add(title: String)
-  Finish(number: Int)
+  Finish(title: String)
   ClearDone
 }
 
 apply(tasks: List<Task>, command: Command): Result<List<Task>, String> = when (command) {
   is Add -> Ok(tasks + [Task(command.title)])
   is Finish ->
-    if (command.number < 1 || command.number > tasks.size) Error("there's no task ${command.number}")
-    else Ok(tasks.mapIndexed { i, task -> if (i == command.number - 1) task.copy(done = true) else task })
+    if (!tasks.any { it.title == command.title }) Error("there's no task called ${command.title}")
+    else Ok(tasks.map { if (it.title == command.title) it.copy(done = true) else it })
   is ClearDone -> Ok(tasks.filter { !it.done })
 }
 
@@ -60,12 +61,12 @@ applyAll(commands: List<Command>): Result<List<Task>, String> =
 main() = {
   added = applyAll([Add("Buy milk"), Add("Write docs")])
   expect(added == Ok([Task("Buy milk"), Task("Write docs")]), "adding two tasks gave $added")
-  finished = applyAll([Add("Buy milk"), Add("Write docs"), Finish(2)])
-  expect(finished == Ok([Task("Buy milk"), Task("Write docs", true)]), "finishing task 2 gave $finished")
-  cleared = applyAll([Add("Buy milk"), Add("Write docs"), Finish(1), ClearDone])
+  finished = applyAll([Add("Buy milk"), Add("Write docs"), Finish("Write docs")])
+  expect(finished == Ok([Task("Buy milk"), Task("Write docs", true)]), "finishing Write docs gave $finished")
+  cleared = applyAll([Add("Buy milk"), Add("Write docs"), Finish("Buy milk"), ClearDone])
   expect(cleared == Ok([Task("Write docs")]), "clearing finished tasks gave $cleared")
-  missing = applyAll([Add("Buy milk"), Finish(3), Add("Never added")])
-  expect(missing == Error("there's no task 3"), "finishing a task that isn't there gave $missing")
+  missing = applyAll([Add("Buy milk"), Finish("Walk the dog"), Add("Never added")])
+  expect(missing == Error("there's no task called Walk the dog"), "finishing a task that isn't there gave $missing")
 }
 ```
 
@@ -74,7 +75,8 @@ apply is a when (command) with a branch for each case. Add is Ok(tasks + [Task(c
 ```
 
 ```text lesson-hint
-For Finish, mark the task whose position is command.number - 1: tasks.mapIndexed { i, task -> if (i == command.number - 1) task.copy(done = true) else task }.
+For Finish, first check the task is there with tasks.any { it.title == command.title }, then map
+over the tasks, copying the one with that title with done = true.
 ```
 
 ```text lesson-hint

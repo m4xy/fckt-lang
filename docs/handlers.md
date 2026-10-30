@@ -92,9 +92,14 @@ A handler can use the same effect it's handling. Its calls go to the handler out
 adds `> ` to every line and passes it on:
 
 ```fckt
-@Console shouted() = Console(print = print, println = line -> println("> $line"), readLine = readLine) {
-  greet()
-}
+@Console shouted() =
+  Console(
+    print = print,
+    println = line -> println("> $line"),
+    readLine = readLine,
+  ) {
+    greet()
+  }
 ```
 
 If the user types `Grace`, it prints `> Hello, Grace`.

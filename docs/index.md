@@ -3,8 +3,7 @@ layout: home
 
 hero:
   name: fckt
-  text: Functional all the way down.
-  tagline: A statically typed functional language where every function's type tells you what it does to the outside world.
+  text: Frankly functional.
   image:
     light: /mark.svg
     dark: /mark-dark.svg

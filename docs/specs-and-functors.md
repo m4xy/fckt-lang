@@ -322,8 +322,9 @@ spec only has what the spec lists, so the list can hold modules that have nothin
 
 ### Specs with their own types
 
-When the spec has a type of its own, say which type you mean in angle brackets. A `Format<A>` is a
-`Format` whose `T` is `A`, so this function works with any format and the values it handles:
+When a spec has a type of its own, a function that takes one of its values can refer to that type
+through the value. Here, `format.T` is whatever type `format` writes and reads, so `readsBack` works
+with any format:
 
 ```fckt
 spec Format {
@@ -338,9 +339,26 @@ module IntText : Format {
   read(text: String) = text.toIntOrNone()
 }
 
-readsBack<A>(format: Format<A>, value: A): Boolean = format.read(format.write(value)) == Some(value)
+readsBack(format: Format, value: format.T): Boolean = format.read(format.write(value)) == Some(value)
 
 readsBack(IntText, 42)    // true
 ```
+
+A parameter's type can only mention parameters that come before it. The return type can mention
+any of them: `parse(format: Format, text: String): Option<format.T>`.
+
+To accept only formats for one type, name the type in angle brackets. Inside `total`, the values
+`format` reads are `Int`s, so they can be added up:
+
+```fckt
+total(format: Format<T = Int>, texts: List<String>): Int =
+  texts.map { format.read(it).getOrElse(0) }.sum()
+
+total(IntText, ["1", "2", "x"])    // 3
+```
+
+This is also how you write the type when there's no value to reach it through, such as a list of
+formats: `List<Format<T = Int>>`. If a spec has several types, name only the ones you want to fix,
+in any order.
 
 A spec's types can't take type parameters when you use it as a value like this.

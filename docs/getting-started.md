@@ -87,7 +87,7 @@ hello/
 
 `build.fk` describes the project. It's written in fckt as well:
 
-```fckt
+```fckt no-check
 // build.fk
 import uk.m4xy.kiln.fckt.Fckt
 
@@ -107,7 +107,7 @@ module Greetings {
 
 `src/main.fk` is where the program starts:
 
-```fckt
+```fckt no-check
 // src/main.fk
 import fckt.io.Console
 import greetings.Greetings

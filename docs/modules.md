@@ -149,7 +149,7 @@ Files in the same package can use each other's declarations without importing th
 
 To use a declaration from another package, import it. There are a few forms:
 
-```fckt
+```fckt no-check
 import geometry.Shapes                      // a module, with its types and their cases
 import geometry.centimetres                 // one declaration from a package
 import geometry.Shapes.area                 // one declaration from a module
@@ -161,7 +161,7 @@ import geometry.Shapes.Shape.Circle as Round
 Importing a module also brings in its types and their cases, so you can write `Square(2.0)` instead
 of `Shapes.Square(2.0)`:
 
-```fckt
+```fckt no-check
 import fckt.io.Console
 import geometry.Shapes
 import geometry.centimetres
@@ -183,7 +183,7 @@ You can also skip the import and write the full name: `geometry.Shapes.perimeter
 
 If two imports bring in the same name, you only get an error if you use that name:
 
-```fckt
+```fckt no-check
 import geometry.Shapes.*
 import text.Labels.*
 
@@ -196,7 +196,7 @@ error: 'area' is imported from geometry.Shapes.area and text.Labels.area; import
 
 To fix it, import the one you want by name:
 
-```fckt
+```fckt no-check
 import geometry.Shapes.*
 import text.Labels.*
 import text.Labels.area

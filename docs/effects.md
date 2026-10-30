@@ -45,7 +45,7 @@ loud(names: List<String>) = names.map(shout)
 
 ```fckt
 loud(["a", "b"])                // [a!, b!]
-greetAll(["Ada", "Grace"])      // prints Hello, Ada and Hello, Grace
+greetAll(["Ada", "Grace"])      // prints Hello, Ada, then Hello, Grace
 ```
 
 ## Function types

@@ -3,6 +3,9 @@ name: Deploy site
 on:
   push:
     branches: [main]
+  # The examples are checked against fckt's main branch, which moves on its own.
+  schedule:
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -15,7 +18,43 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: fckt-lang
+      # fckt builds Kastor from ../kastor.
+      - uses: actions/checkout@v4
+        with:
+          repository: m4xy/fckt
+          path: fckt
+      - uses: actions/checkout@v4
+        with:
+          repository: m4xy/kastor
+          path: kastor
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: 5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build the compiler
+        working-directory: fckt
+        run: ./gradlew :installDist
+      - name: Check the examples
+        working-directory: fckt-lang
+        run: opam exec -- node scripts/check-examples.mjs
+        env:
+          FCKT: ${{ github.workspace }}/fckt/build/install/fckt/bin/fckt
+
   build:
+    needs: examples
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

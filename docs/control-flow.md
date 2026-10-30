@@ -15,7 +15,7 @@ sign(-3)                        // negative
 
 You can leave out `else` when the `if` doesn't give back a value, such as when it only prints:
 
-```fckt
+```fckt no-check
 if (verbose) println("starting")
 ```
 

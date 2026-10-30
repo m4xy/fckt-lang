@@ -72,7 +72,7 @@ compiler knows about:
 
 Fields can also hold another annotation, or a list or tuple of any of these:
 
-```fckt
+```fckt no-check
 annotation type Codec(of: Type)
 annotation type Derive(specs: List<Spec>)
 annotation type SortedBy(order: Module<Ordered>)
@@ -162,7 +162,7 @@ fckt --symbols symbols.txt -I src shop
 For a `shop` package that declares `annotation type Table(name: String)` and
 `annotation type Column(name: String)`, and has this `Catalogue.fk`:
 
-```fckt
+```fckt no-check
 module Catalogue {
   @Table("products")
   type Product(@Column("product_name") name: String, price: Int = 0)

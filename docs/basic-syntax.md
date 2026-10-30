@@ -7,7 +7,7 @@ This page walks through the parts of fckt you'll use every day, with a short exa
 Every folder in your project is a package. Files in the same package can use each other's
 declarations directly. To use something from another package, import it:
 
-```fckt
+```fckt no-check
 import fckt.io.Console          // one declaration
 import geometry.Shapes          // a module, with its types and their cases
 import geometry.Shapes.area     // one function from a module
@@ -148,8 +148,8 @@ Put `$` before a name, or wrap an expression in `${...}`, to insert it into a st
 
 ```fckt
 name = "fckt"
-"Hello, $name"                  // a name
-"${name.length} characters"     // an expression
+"Hello, $name"                  // Hello, fckt
+"${name.length} characters"     // 4 characters
 ```
 
 Values of your own types are printed with their type name and fields, such as `Point(x=1, y=2)`.
@@ -217,7 +217,7 @@ call, as `filter` and `map` do here. Inside a block that takes one value, that v
 
 ```fckt
 (1..5).map { it * it }          // [1, 4, 9, 16, 25]
-0..<xs.size                     // the indexes of xs
+0..<5                           // [0, 1, 2, 3, 4], without the 5
 5.downTo(1)                     // [5, 4, 3, 2, 1]
 ```
 
@@ -252,7 +252,7 @@ The `if n >= 0` on the first branch is a guard: the branch only matches when it'
 `|>` passes the value on its left to the function on its right:
 
 ```fckt
-xs |> doubleAll                 // doubleAll(xs)
+3 |> double                     // 6, the same as double(3)
 ```
 
 A tuple groups a few values together without defining a type. You can unpack one into names:

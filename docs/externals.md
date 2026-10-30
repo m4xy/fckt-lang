@@ -88,7 +88,7 @@ If `countOf` returned the table instead, it would need `@Mutating`.
 To call a library installed with [opam](https://opam.ocaml.org), list its package in your kiln
 build. kiln then compiles and links your program with it:
 
-```fckt
+```fckt no-check
 // build.fk
 import uk.m4xy.kiln.fckt.*
 

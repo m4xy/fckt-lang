@@ -15,12 +15,14 @@ can leave it out: `Customer("Ada", "ada@example.com")`.
 
 ## Change a copy, not the original
 
-Values don't change once they're made. To get one with a different field, copy it. This uses the
-`Point` type from [Basic syntax](/basic-syntax#types):
+Values don't change once they're made. To get one with a different field, copy it:
 
 ```fckt
+type Point(x: Int, y: Int)
+
 p = Point(1, 2)
-moved = p.copy(y = 5)           // Point(x=1, y=5); p is unchanged
+p.copy(y = 5)                   // Point(x=1, y=5)
+p                               // Point(x=1, y=2)
 ```
 
 ## Filter, map and sort a list
@@ -76,7 +78,8 @@ The same works for `-` (`minus`), `*` (`times`), `/` (`div`) and `%` (`rem`).
 ```fckt
 "42".toIntOrNone()              // Some(42)
 "old".toIntOrNone()             // None
-names.firstOrNone().getOrElse("nobody")
+names: List<String> = []
+names.firstOrNone().getOrElse("nobody")   // nobody
 ```
 
 `getOrElse` gives you the value if there is one, and the fallback if there isn't.

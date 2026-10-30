@@ -1,12 +1,12 @@
 # Basic syntax
 
-A tour of fckt's basic syntax, with examples. Coming from Kotlin? [Coming from Kotlin](/coming-from-kotlin)
-lists what's different in one place.
+This page walks through the parts of fckt you'll use every day, with a short example for each. If
+you already write Kotlin, [Coming from Kotlin](/coming-from-kotlin) covers what's different.
 
 ## Packages and imports
 
-A folder is a package. A file uses its own package's declarations by name, and other packages'
-through imports:
+Every folder in your project is a package. Files in the same package can use each other's
+declarations directly. To use something from another package, import it:
 
 ```fckt
 import fckt.io.Console          // one declaration
@@ -16,12 +16,12 @@ import fckt.collections.Maps.*  // everything in a module
 import geometry.Shapes.Shape.Circle as Round
 ```
 
-A file whose name is capitalised, such as `Shapes.fk`, declares one thing named as the file is:
-`module Shapes { ... }`. A file with a lower-case name holds its package's own declarations.
+If a file's name starts with a capital letter, like `Shapes.fk`, it holds one declaration with the
+same name, such as `module Shapes { ... }`. Files with lower-case names can hold anything.
 
 ## Program entry point
 
-A program's entry point is `main`. It may take the command-line arguments:
+Every program starts at `main`:
 
 ```fckt
 import fckt.io.Console
@@ -29,15 +29,17 @@ import fckt.io.Console
 main() = println("Hello, fckt!")
 ```
 
+If you need the command-line arguments, give `main` a parameter:
+
 ```fckt
 main(args: List<String>) = println("${args.size} arguments")
 ```
 
 ## Print to the standard output
 
-`println` and `print` come from `Console`, one of the standard library's [effects](#effects). `main` may use any effect without declaring it; the terminal handles `Console` for it.
-
-`println` takes a `String`, so print other values through a string template:
+`println` prints a line, and `print` prints without starting a new one. Both come from `Console`,
+so you need to import it. `println` takes a `String`, so to print a number or any other value, put
+it in a string template:
 
 ```fckt
 import fckt.io.Console
@@ -48,21 +50,24 @@ main() = {
 }
 ```
 
+Printing is an [effect](#effects). Most functions have to say which effects they use, but `main`
+doesn't need to: it's allowed to do anything.
+
 ## Functions
 
-A function is its parameters and an expression:
+You write a function as its name, its parameters, and then `=` followed by what it returns:
 
 ```fckt
 sum(a: Int, b: Int): Int = a + b
 ```
 
-The result type can be left to inference:
+You can leave out the return type, and fckt will work it out:
 
 ```fckt
 double(x: Int) = x * 2
 ```
 
-Parameters can have defaults, and a call can name its arguments:
+Parameters can have default values. When you call a function, you can name the arguments you pass:
 
 ```fckt
 greet(name: String, greeting: String = "Hello") = "$greeting, $name!"
@@ -71,8 +76,8 @@ greet("fckt")                   // Hello, fckt!
 greet("fckt", greeting = "Hi")  // Hi, fckt!
 ```
 
-A body that needs several steps is a block. A block is an expression, and its last line is its
-value:
+If a function needs more than one line, use a block. The value of a block is the value of its last
+line:
 
 ```fckt
 countPositive(xs: List<Int>): Int = {
@@ -82,18 +87,18 @@ countPositive(xs: List<Int>): Int = {
 }
 ```
 
-Top-level functions can be declared in any order, and can call each other recursively.
+You can declare functions in any order, and they can call each other.
 
 ## Values and variables
 
-A binding is a name and a value. Every binding is immutable.
+To name a value, write the name, `=`, and the value. Once a name has a value, it can't be changed:
 
 ```fckt
 total = 42
 greeting = "Hello"
 ```
 
-`var` declares a local that can change:
+When you do need something that changes, such as a counter, declare it with `var`:
 
 ```fckt
 var n = 0
@@ -102,7 +107,7 @@ n += 1
 
 ## Types
 
-A type with fields is declared with parentheses. It's an immutable record:
+To define your own type, list its fields in parentheses:
 
 ```fckt
 type Point(x: Int, y: Int)
@@ -112,13 +117,18 @@ p.x                  // 1
 p.copy(y = 5)        // Point(x=1, y=5)
 ```
 
-A type with one unnamed field calls it `value`: `type Money(Int)` is `type Money(value: Int)`.
+Fields can't be changed after a value is created. To get a value with a different field, use `copy`,
+which leaves the original as it was.
 
-Another name for a type is an alias: `type Names = List<String>`.
+If a type has a single field and you don't name it, it's called `value`: `type Money(Int)` is the
+same as `type Money(value: Int)`.
+
+You can also give an existing type another name: `type Names = List<String>`.
 
 ## Types with cases
 
-A type declared with braces has cases, and a value is exactly one of them:
+Some types have a fixed set of alternatives. A shape might be a circle or a rectangle, and never
+anything else. Declare the alternatives, called cases, in braces:
 
 ```fckt
 type Shape {
@@ -127,10 +137,12 @@ type Shape {
 }
 ```
 
-Cases that carry nothing make an enumeration: `type Level { Debug, Info }`. `Level.values` is every
-case in order, and `level.name` a case's name.
+If none of the cases hold any data, you get an enumeration: `type Level { Debug, Info }`. Use
+`Level.values` to get all the cases in order, and `level.name` to get a case's name as text.
 
 ## String templates
+
+Put `$` before a name, or wrap an expression in `${...}`, to insert it into a string:
 
 ```fckt
 name = "fckt"
@@ -138,11 +150,12 @@ name = "fckt"
 "${name.length} characters"     // an expression
 ```
 
-A value in a template prints as its type and fields: `Point(x=1, y=2)`, `[1, 2, 3]`, `Some(4)`.
+Values of your own types are printed with their type name and fields, such as `Point(x=1, y=2)`.
+Lists print as `[1, 2, 3]`, and options as `Some(4)` or `None`.
 
 ## Conditional expressions
 
-`if` is an expression:
+`if` gives back a value, so you can use it anywhere an expression is expected:
 
 ```fckt
 maxOf(a: Int, b: Int) = if (a > b) a else b
@@ -150,8 +163,8 @@ maxOf(a: Int, b: Int) = if (a > b) a else b
 
 ## when
 
-`when` matches a value against patterns. It must cover every value: leave out a case, and the
-compiler says which one is missing.
+Use `when` to check a value against several possibilities. fckt makes sure you've handled every
+case. If you forget one, the compiler tells you which:
 
 ```fckt
 area(shape: Shape): Float = when (shape) {
@@ -160,8 +173,9 @@ area(shape: Shape): Float = when (shape) {
 }
 ```
 
-Inside a branch, `is` narrows the value, so `shape.radius` can be read. Without a subject, `when`
-picks the first true condition:
+Inside the `is Circle` branch, fckt knows `shape` is a `Circle`, so you can read `shape.radius`.
+
+Without a value to check, `when` runs the first branch whose condition is true:
 
 ```fckt
 describe(n: Int) = when {
@@ -171,7 +185,8 @@ describe(n: Int) = when {
 }
 ```
 
-Patterns can take values apart, and a guard adds a condition:
+Branches can also match the shape of a value. Here, `[]` matches an empty list, and `[x, *_]`
+matches a list that starts with `x`:
 
 ```fckt
 firstEven(xs: List<Int>): Option<Int> = when (xs.filter { it % 2 == 0 }) {
@@ -182,6 +197,8 @@ firstEven(xs: List<Int>): Option<Int> = when (xs.filter { it % 2 == 0 }) {
 
 ## Lists
 
+Write a list in square brackets:
+
 ```fckt
 xs = [1, 2, 3, 4]
 xs.filter { it > 2 }            // [3, 4]
@@ -190,8 +207,8 @@ xs.map { it * 2 }               // [2, 4, 6, 8]
 xs + [5]                        // [1, 2, 3, 4, 5]
 ```
 
-A function's last argument can be a block after the call. A block with one parameter
-calls it `it`.
+When the last thing a function takes is another function, you can pass it as a block after the
+call, as `filter` and `map` do here. Inside a block that takes one value, that value is called `it`.
 
 ## Ranges
 
@@ -201,18 +218,24 @@ calls it `it`.
 5.downTo(1)                     // [5, 4, 3, 2, 1]
 ```
 
+`1..5` includes both ends. `0..<n` stops just before `n`.
+
 ## Missing values
 
-fckt has no `null`. A value that may be missing is an `Option`: `Some(x)` or `None`.
+fckt has no `null`. When a value might not be there, its type is `Option`, and it's either
+`Some(value)` or `None`:
 
 ```fckt
 "42".toIntOrNone()              // Some(42)
 ["a"].firstOrNone().getOrElse("none")
 ```
 
+Because the type says the value might be missing, you can't forget to check.
+
 ## Result
 
-An operation that can fail gives a `Result`, `Ok(value)` or `Error(reason)`:
+When something can go wrong, return a `Result`. It holds either `Ok(value)` or
+`Error(reason)`:
 
 ```fckt
 parseAge(text: String): Result<Int, String> = when (text.toIntOrNone()) {
@@ -221,15 +244,18 @@ parseAge(text: String): Result<Int, String> = when (text.toIntOrNone()) {
 }
 ```
 
+The `if n >= 0` on the first branch is a guard: the branch only matches when it's true.
+
 ## Pipes and tuples
 
-`|>` passes a value to a function:
+`|>` passes the value on its left to the function on its right. It's useful for reading a chain of
+steps from left to right:
 
 ```fckt
 xs |> doubleAll                 // doubleAll(xs)
 ```
 
-Tuples group values without naming a type, and destructure the same way:
+A tuple groups a few values together without defining a type. You can unpack one into names:
 
 ```fckt
 (a, b) = (1, "one")
@@ -238,8 +264,13 @@ Tuples group values without naming a type, and destructure the same way:
 
 ## Effects
 
-A function says what it does besides work out its result, before its name. A function that says
-nothing is pure, and the compiler checks it:
+An effect is anything a function does apart from returning a value: printing, reading a file,
+asking for the time. In fckt, a function lists the effects it uses before its name. A function that
+lists none is pure. It can only compute its result, and the compiler won't let it do anything
+else.
+
+You can define effects of your own. Here, `Clock` has one operation, `now`, and `stamped` uses
+both `Clock` and `Console`:
 
 ```fckt
 import fckt.io.Console
@@ -249,8 +280,8 @@ effect Clock { now(): Int }
 @Clock @Console stamped(message: String) = println("[${now()}] $message")
 ```
 
-`Clock` is a handled effect: whatever handles it answers `now()`. Here the block is run with a
-clock that always says 42:
+`stamped` doesn't decide what `now()` returns. Whatever code runs it does, by handling the effect.
+Here, `main` runs it with a clock that always says 42:
 
 ```fckt
 main() = Clock(now = ~42) { stamped("started") }
@@ -260,12 +291,17 @@ main() = Clock(now = ~42) { stamped("started") }
 [42] started
 ```
 
-`~42` is a function that ignores its arguments and gives 42. The same mechanism lets a test answer
-`Console` itself, so code that prints is tested without a terminal. See [Idioms](/idioms#test-code-that-does-i-o).
+`~42` is shorthand for a function that ignores its arguments and returns 42.
 
-`main` is the exception to declaring effects: it may do anything, and whatever it does is handled before the program starts, `Console` by the terminal.
+This is what makes code with effects easy to test: a test can handle `Console` itself and collect
+what would have been printed. There's an example in [Idioms](/idioms#test-code-that-does-i-o).
 
-Changing a `var` is an effect too, `@Mutating`. A function that only changes locals it made itself, as `countPositive` above does, declares nothing and is still pure: no one else can see the change.
+As mentioned earlier, `main` doesn't have to list its effects. It can do anything, and the program
+handles them for it. `Console`, for example, is connected to the terminal.
+
+Changing a `var` is an effect too, called `@Mutating`. But if a function only changes variables it
+created itself, as `countPositive` does above, nobody outside can see the change, so the function
+still counts as pure and doesn't need to declare it.
 
 ## Comments
 

@@ -1,51 +1,54 @@
 # Coming from Kotlin
 
-fckt keeps Kotlin's syntax wherever Kotlin's meaning fits a functional language, and changes it
-where it doesn't. This page lists the differences.
+If you know Kotlin, most fckt code will look familiar. fckt borrows Kotlin's syntax, but it's a
+functional language underneath, so some things work differently. This page goes through them.
 
-## The same, or nearly
+## What stays the same
 
-- Records and their `copy`, string templates, `when`, `is` narrowing, trailing lambdas and `it`,
-  extension functions and properties, `operator` functions, default and named arguments, ranges,
-  method chains, and `internal` and `private`.
-- `if` and `when` are expressions. A `when` over a type's cases must cover all of them, as over a
-  sealed type in Kotlin.
-- Values print like Kotlin's `toString()`: `Point(x=1, y=2)`.
-- Lists, `map`, `filter`, `fold`, `sortedBy`, `joinToString` and most of the collection functions
-  you know.
+These work much as you'd expect:
 
-## Different
+- string templates, `if` and `when` as expressions, and `is` checks that narrow a value's type
+- trailing lambdas and `it`
+- extension functions and properties, and `operator` functions
+- default and named arguments
+- ranges, and collection functions like `map`, `filter`, `fold`, `sortedBy` and `joinToString`
+- `private` and `internal`
+
+A `when` over a type's cases has to handle all of them, just like a `when` over a sealed type.
+
+## What's different
 
 | Kotlin | fckt | |
 | --- | --- | --- |
-| `val x = 1` | `x = 1` | Every binding is immutable, so there's no keyword. |
-| `var x = 1` | `var x = 1` | Changing it is the `@Mutating` effect, unless the variable never leaves the function. |
-| `fun f(x: Int) = ...` | `f(x: Int) = ...` | No `fun`. |
-| `data class P(val x: Int)` | `type P(x: Int)` | Fields are immutable unless marked `var`. |
-| `sealed interface S` with subclasses | `type S { A(...), B }` | Cases are declared together, in one place. |
-| `enum class Level { DEBUG, INFO }` | `type Level { Debug, Info }` | Cases that carry nothing; `Level.values`, `level.name`. |
-| `x: String?`, `null` | `x: Option<String>`, `None` | There is no `null`. |
-| `throw`, `try`/`catch` | `fail(...)`, `attempt { ... }`, `Result` | Failure is an effect, or a value. |
-| `interface` | `spec` | A module follows a spec. Specs can have defaults, and functors take modules as parameters. |
-| `object` | `module` | A group of declarations, which can follow a spec and be passed as a value. |
-| `println(42)` | `println("${42}")` | `println` takes a `String`. |
-| `Long` | `Int` | An `Int` is 63 bits, as OCaml's is. There's no separate `Long`. |
-| `x.let { ... }` | `x \|> f` | The pipe passes a value to a function. |
-| `suspend`, coroutines | effect handlers | A handler's `resume` gives generators, schedulers and async I/O. |
+| `val x = 1` | `x = 1` | Every value is immutable, so there's no keyword for it. |
+| `var x = 1` | `var x = 1` | Changing a variable is an effect, `@Mutating`, unless the variable never leaves the function. |
+| `fun f(x: Int) = ...` | `f(x: Int) = ...` | There's no `fun`. |
+| `data class P(val x: Int)` | `type P(x: Int)` | Fields can't change unless you mark them `var`. |
+| `sealed interface S` and its subclasses | `type S { A(...), B }` | All the cases are declared together. |
+| `enum class Level { DEBUG, INFO }` | `type Level { Debug, Info }` | Use `Level.values` and `level.name`. |
+| `x: String?` and `null` | `x: Option<String>` and `None` | There's no `null`. |
+| `throw`, `try` and `catch` | `fail(...)`, `attempt { ... }` and `Result` | Failing is an effect, and results are values. |
+| `interface` | `spec` | A module follows a spec, the way a class implements an interface. |
+| `object` | `module` | A module can follow a spec, and you can pass it around as a value. |
+| `println(42)` | `println("${42}")` | `println` only takes a `String`. |
+| `Long` | `Int` | fckt's `Int` is already 63 bits, so there's no separate `Long`. |
+| `x.let { ... }` | `x \|> f` | `\|>` passes a value to a function. |
+| `suspend` and coroutines | effect handlers | Generators, schedulers and async I/O are all built with handlers. |
 
-## New
+## What's new
 
-- **Effects in types.** `@Console`, `@Fail`, `@Mutating` and your own say what a function does. A
-  function that declares none is pure, and the compiler checks it. See
+- **Effects.** A function declares what it does to the outside world, like `@Console` or `@Fail`.
+  If it declares nothing, it's pure, and the compiler checks that. See
   [Basic syntax](/basic-syntax#effects).
-- **Handlers.** An effect's operations are answered by whatever handles them: the terminal in
-  `main`, a list in a test.
-- **Functors.** A module that takes modules: `module SortedSet(M: Ordered) { ... }`.
-- **Monadic blocks.** `Options { x by half(n); x + 1 }` runs a block through a module's `bind`.
-- **Opaque types.** `opaque type T = Int` hides what a type is outside its module, so only the
-  module can make one.
+- **Handlers.** Code that uses an effect doesn't decide how it's carried out. In a real program,
+  `Console` writes to the terminal. In a test, it can collect lines in a list.
+- **Functors.** A module can take other modules as parameters: `module SortedSet(M: Ordered) { ... }`.
+- **Blocks that chain steps.** `Options { x by half(n); x + 1 }` stops at the first step that gives
+  `None`.
+- **Opaque types.** `opaque type T = Int` hides what `T` really is from code outside its module, so
+  only that module can create one.
 
 ## Where it runs
 
-fckt compiles to OCaml, not to the JVM. Programs are native executables built by `ocamlopt`, and
-Java libraries aren't available; OCaml code is, through `external` declarations.
+fckt doesn't run on the JVM. It compiles to OCaml, which compiles to native executables, so Java
+libraries aren't available. You can call OCaml code instead, through `external` declarations.

@@ -1,7 +1,7 @@
 # Idioms
 
-A collection of frequently used idioms in fckt. Every example on this page compiles and runs as
-written, with the imports it shows.
+Short recipes for things you'll do often in fckt. Every example on this page compiles and runs as
+written, as long as you include the imports it shows.
 
 ## Create data types
 
@@ -9,10 +9,13 @@ written, with the imports it shows.
 type Customer(name: String, email: String, tier: String = "standard")
 ```
 
-A `Customer` has its fields, `copy`, equality, and a readable form in string templates. Fields with defaults can be
-left out: `Customer("Ada", "ada@example.com")`.
+This gives you a `Customer` with three fields. You can compare two customers with `==`, make
+changed copies with `copy`, and print one in a string template. Because `tier` has a default, you
+can leave it out: `Customer("Ada", "ada@example.com")`.
 
 ## Change a copy, not the original
+
+Values don't change once they're made. To get one with a different field, copy it:
 
 ```fckt
 p = Point(1, 2)
@@ -35,9 +38,10 @@ import fckt.collections.Maps.*
 words.associateWith { it.length }   // {fckt=4, kiln=4, ocaml=5}
 ```
 
-## Extension functions and properties
+## Add functions to existing types
 
-Add a function to a type without touching it:
+You can add a function to a type you didn't write, and call it as if it were built in. These are
+called extension functions. Leave out the parentheses to make a property instead:
 
 ```fckt
 List<A>.second(): Option<A> = when (this) {
@@ -51,7 +55,11 @@ String.shout: String = this.uppercase()
 "fckt".shout                    // FCKT
 ```
 
-## Operators for your own types
+Inside the function, `this` is the value it was called on.
+
+## Use operators with your own types
+
+To let `+` work on your type, define `plus` and mark it `operator`:
 
 ```fckt
 type Money(Int)
@@ -60,7 +68,7 @@ operator Money.plus(other: Money): Money = Money(this.value + other.value)
 Money(2) + Money(3)             // Money(value=5)
 ```
 
-Only an extension marked `operator` is used for an operator.
+The same works for `-` (`minus`), `*` (`times`), `/` (`div`) and `%` (`rem`).
 
 ## Handle a missing value
 
@@ -70,10 +78,13 @@ Only an extension marked `operator` is used for an operator.
 names.firstOrNone().getOrElse("nobody")
 ```
 
-## Chain steps that might give nothing
+`getOrElse` gives you the value if there is one, and the fallback if there isn't.
 
-A module's name before a block runs the block through the module's `bind`. `by` takes the value
-out, or stops the whole block:
+## Chain steps that might fail
+
+Say you have several steps, and each one might give `None`. Instead of checking after every step,
+put the steps in an `Options` block. `by` takes the value out of each step, and if any step gives
+`None`, the whole block stops and gives `None`:
 
 ```fckt
 import fckt.monads.Options
@@ -90,12 +101,12 @@ quarter(12)                     // Some(3)
 quarter(6)                      // None
 ```
 
-The same works for any module with `bind` and `pure`, including your own.
+You can do the same with your own types, by writing a module with `bind` and `pure` functions.
 
 ## Fail, and catch the failure
 
-`fail` is an operation of the `Fail` effect. `attempt` handles it, turning the block into a
-`Result`:
+Call `fail` when something has gone wrong and the function can't continue. Its caller can catch the
+failure with `attempt`, which turns it into a `Result`:
 
 ```fckt
 import fckt.effects.Fail
@@ -107,12 +118,13 @@ attempt { checkedAge(30) }      // Ok(30)
 attempt { checkedAge(-1) }      // Error(negative age: -1)
 ```
 
-Left unhandled, a failure in `main` stops the program with the reason on standard error.
+The `@Fail` on `checkedAge` tells callers that it might fail. If nothing catches a failure, the
+program stops and prints the reason.
 
 ## Describe what a module provides
 
-A spec says what a module must define. Any module that follows it can be used where the spec is
-expected:
+A spec lists the functions a module must have. Any module that follows the spec can be used where
+the spec is expected:
 
 ```fckt
 spec Greeting { greet(name: String): String }
@@ -125,12 +137,13 @@ greetAll(greeting: Greeting, names: List<String>) = names.map { greeting.greet(i
 greetAll(French, ["Ada", "Alan"])   // [Bonjour, Ada, Bonjour, Alan]
 ```
 
-A module is a value of its spec, so it can be passed, stored in a list, or chosen at runtime.
+Modules are values, so you can pass them to functions, keep them in lists, or pick one while the
+program runs.
 
 ## Test code that does I/O
 
-`Console` is an effect, so a function that prints can be run with a handler that collects what it
-prints instead:
+Printing goes through the `Console` effect, so you can run a function with your own `Console` that
+records each line instead of printing it:
 
 ```fckt
 import fckt.io.Console
@@ -148,12 +161,14 @@ captured(): List<String> = {
 captured()                      // [one, two]
 ```
 
-Handling `Console` takes the effect away, so `captured` is pure: it declares no effects, and the
-compiler agrees.
+Notice that `captured` doesn't declare `@Console`. It handles the effect itself, so nothing it does
+reaches the real console, and the compiler treats it as pure.
 
 ## Compute something only when needed
 
 ```fckt
 expensive = lazy(~(1..1000).sum())
-expensive.value                 // 500500, worked out the first time it's read
+expensive.value                 // 500500
 ```
+
+The sum isn't worked out until you first read `expensive.value`. After that, the result is reused.

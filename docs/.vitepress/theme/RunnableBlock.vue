@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { nextTick, ref, watch } from 'vue'
 import FcktEditor from './FcktEditor.vue'
-import { run, type Outcome } from './runner'
+import { isWarm, run, type Outcome } from './runner'
 
 // The Run and Edit controls under one of the docs' examples, and what running it printed.
 const props = defineProps<{ wrapper: HTMLElement; original: string; context: string[][] }>()
@@ -11,7 +11,7 @@ const running = ref(false)
 const outcome = ref<Outcome | null>(null)
 const editor = ref<InstanceType<typeof FcktEditor>>()
 // The code block's lower corners square off while the output is joined to it.
-watch(outcome, value => props.wrapper.classList.toggle('has-output', !!value))
+watch([outcome, running], () => props.wrapper.classList.toggle('has-output', !!outcome.value || running.value))
 
 async function start() {
   if (running.value) return
@@ -56,7 +56,10 @@ function reset() {
       <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
     </button>
   </div>
-  <div v-if="outcome" class="fckt-output" :class="outcome.kind" role="status">
+  <div v-if="running" class="fckt-output" role="status">
+    <span class="fckt-spinner" aria-hidden="true"></span><span class="fckt-loading">{{ isWarm() ? 'Running…' : 'Loading the compiler…' }}</span>
+  </div>
+  <div v-else-if="outcome" class="fckt-output" :class="outcome.kind" role="status">
     <span class="fckt-output-label">{{ outcome.kind === 'printed' ? 'output' : 'error' }}</span>
     <pre v-if="outcome.text">{{ outcome.text }}</pre>
     <p v-else>Printed nothing.</p>

@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue'
 import FcktEditor from './FcktEditor.vue'
 import { examples } from './playground-examples'
-import { run, type Outcome } from './runner'
+import { isWarm, run, type Outcome } from './runner'
 
 // A whole program to edit and run. The program is kept in the page's address when shared, and in
 // this browser between visits.
@@ -82,7 +82,7 @@ async function share() {
       </div>
       <div class="fckt-playground-output" :class="outcome?.kind" role="status" aria-live="polite">
         <span class="fckt-output-label">{{ outcome && outcome.kind !== 'printed' ? 'error' : 'output' }}</span>
-        <p v-if="running" class="fckt-quiet">Compiling and running…</p>
+        <p v-if="running" class="fckt-quiet"><span class="fckt-spinner" aria-hidden="true"></span><span class="fckt-loading">{{ isWarm() ? 'Running…' : 'Loading the compiler…' }}</span></p>
         <p v-else-if="!outcome" class="fckt-quiet">What the program prints shows here. The first run loads the compiler, so it takes a moment longer.</p>
         <pre v-else-if="outcome.text">{{ outcome.text }}</pre>
         <p v-else class="fckt-quiet">Printed nothing.</p>

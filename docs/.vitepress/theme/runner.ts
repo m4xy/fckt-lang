@@ -74,7 +74,19 @@ async function compile(source: string): Promise<{ ocaml: string; errors: string;
   }
 }
 
+// Whether a run has finished on this page yet: the first loads the compiler, so it's slower.
+let warm = false
+export const isWarm = () => warm
+
 export async function run(code: string, context: string[][] = []): Promise<Outcome> {
+  try {
+    return await runOnce(code, context)
+  } finally {
+    warm = true
+  }
+}
+
+async function runOnce(code: string, context: string[][]): Promise<Outcome> {
   const program = programOf(code, context).source
   const compiled = await compile(program)
   if (!compiled.ocaml) return { kind: 'error', text: errorsIn(compiled.errors, compiled.source, code) }

@@ -249,6 +249,32 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+/* While it runs: a ring of the logo's sea glass turning where the output will be. */
+.fckt-spinner {
+  display: inline-block;
+  vertical-align: -3px;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #8FF0BE, #1FBFAE, #3A8FD6, #9A8AE0, #D97BC8, #8FF0BE);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  animation: fckt-spin 0.9s linear infinite;
+}
+@keyframes fckt-spin {
+  to { transform: rotate(1turn); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fckt-spinner {
+    animation-duration: 3s;
+  }
+}
+.fckt-loading {
+  color: var(--vp-c-text-2);
+  font-family: var(--vp-font-family-base);
+  font-size: 13px;
+}
 .fckt-output-label {
   position: absolute;
   top: 2px;

@@ -2,12 +2,11 @@
 layout: home
 
 hero:
-  name: fckt
   text: Frankly functional.
   tagline: Designed for writing applications concisely, expressively and effectively.
   image:
-    light: /mark.svg
-    dark: /mark-dark.svg
+    light: /lockup-outlined.svg
+    dark: /lockup-outlined-dark.svg
     alt: fckt
   actions:
     - theme: brand

@@ -365,3 +365,19 @@
     right: -12px;
   }
 }
+
+/* The home page's hero shows the whole framed logo, which is wide, where VitePress expects a square. */
+.VPHome .VPHero .image-src {
+  max-width: 280px;
+  max-height: none;
+}
+@media (min-width: 640px) {
+  .VPHome .VPHero .image-src {
+    max-width: 360px;
+  }
+}
+@media (min-width: 960px) {
+  .VPHome .VPHero .image-src {
+    max-width: 440px;
+  }
+}

@@ -18,13 +18,14 @@ export default defineConfig({
     logo: { light: '/lockup.svg', dark: '/lockup-dark.svg', alt: 'fckt' },
     siteTitle: false,
     nav: [
-      { text: 'Docs', link: '/getting-started', activeMatch: '^/(getting-started|basic-syntax|idioms)' },
+      { text: 'Docs', link: '/getting-started', activeMatch: '^/(why|getting-started|basic-syntax|idioms)' },
       { text: 'kiln', link: 'https://github.com/m4xy/kiln' },
     ],
     sidebar: [
       {
         text: 'Get started',
         items: [
+          { text: 'Why fckt', link: '/why' },
           { text: 'Getting started', link: '/getting-started' },
           { text: 'Basic syntax', link: '/basic-syntax' },
           { text: 'Idioms', link: '/idioms' },
@@ -34,6 +35,5 @@ export default defineConfig({
     socialLinks: [{ icon: 'github', link: 'https://github.com/m4xy/fckt' }],
     outline: { level: [2, 3], label: 'On this page' },
     search: { provider: 'local' },
-    footer: { message: 'fckt is a functional programming language. The name is a coincidence.' },
   },
 })

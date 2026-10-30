@@ -4,7 +4,7 @@ layout: home
 hero:
   name: fckt
   text: Kotlin's syntax. Functional all the way down.
-  tagline: A statically typed functional language that compiles to OCaml, and tells you in every function's type what it does to the outside world.
+  tagline: A statically typed functional language where every function's type tells you what it does to the outside world.
   image:
     light: /mark.svg
     dark: /mark-dark.svg
@@ -14,8 +14,8 @@ hero:
       text: Get started
       link: /getting-started
     - theme: alt
-      text: Basic syntax
-      link: /basic-syntax
+      text: Why fckt
+      link: /why
 
 features:
   - title: Easy to read
@@ -26,8 +26,8 @@ features:
     details: Printing, files and the clock all go through effects. A test can handle them itself, so you can test code that does I/O without touching the disk or the terminal.
   - title: Modules that fit together
     details: Group code into modules. Specs describe what a module provides, and functors build new modules out of existing ones.
-  - title: Fast native programs
-    details: fckt compiles to OCaml, which compiles to native code. The fckt compiler is itself written in fckt.
+  - title: Native programs
+    details: fckt programs compile to native executables. The fckt compiler is itself written in fckt.
   - title: A build tool in the same language
     details: kiln builds your projects, runs your tests and publishes libraries. Its build scripts are written in fckt too.
 ---

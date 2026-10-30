@@ -16,7 +16,7 @@ import geometry.Shapes.Shape.Circle as Round
 ```
 
 If a file's name starts with a capital letter, like `Shapes.fk`, it holds one declaration with the
-same name, such as `module Shapes { ... }`. Files with lower-case names can hold anything.
+same name, such as `module Shapes { /* ... */ }`. Files with lower-case names can hold anything.
 
 ## Program entry point
 

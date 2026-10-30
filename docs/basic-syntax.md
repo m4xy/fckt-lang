@@ -36,8 +36,9 @@ main(args: List<String>) = println("${args.size} arguments")
 
 ## Print to the standard output
 
-`println` and `print` come from the `Console` effect, which `main` answers with the terminal.
-They take a `String`, so print other values through a string template:
+`println` and `print` come from the `Console` effect. `main` needs no `@Console`: it may do anything, and whatever it does is handled before the program starts, `Console` by the terminal. Every other function declares the effects it uses.
+
+`println` takes a `String`, so print other values through a string template:
 
 ```fckt
 import fckt.io.Console
@@ -50,7 +51,7 @@ main() = {
 
 ## Functions
 
-A function is its parameters and an expression. There's no `fun` keyword:
+A function is its parameters and an expression:
 
 ```fckt
 sum(a: Int, b: Int): Int = a + b

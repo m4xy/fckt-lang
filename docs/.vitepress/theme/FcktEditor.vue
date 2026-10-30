@@ -9,12 +9,20 @@ const code = defineModel<string>({ required: true })
 const emit = defineEmits<{ run: [] }>()
 const html = ref('')
 const textarea = ref<HTMLTextAreaElement>()
+const copy = ref<HTMLPreElement>()
 
 let latest = 0
 async function paint() {
   const asked = ++latest
   const result = await highlighted(code.value)
   if (asked === latest) html.value = result
+  follow()
+}
+
+// The textarea scrolls itself, so the caret stays in view as the reader types; the highlighted copy
+// under it moves the same distance.
+function follow() {
+  if (copy.value && textarea.value) copy.value.scrollLeft = textarea.value.scrollLeft
 }
 watch(code, paint)
 onMounted(paint)
@@ -38,7 +46,7 @@ defineExpose({ focus: () => textarea.value?.focus() })
 <template>
   <div class="fckt-editor" :style="{ '--min-lines': props.minLines ?? 3 }">
     <!-- The trailing newline keeps the highlighted copy as tall as the textarea when it ends in one. -->
-    <pre aria-hidden="true"><code v-html="html + '\n'"></code></pre>
+    <pre ref="copy" aria-hidden="true"><code v-html="html + '\n'"></code></pre>
     <textarea
       ref="textarea"
       v-model="code"
@@ -48,6 +56,8 @@ defineExpose({ focus: () => textarea.value?.focus() })
       autocapitalize="off"
       autocomplete="off"
       @keydown="onKeydown"
+      @scroll="follow"
+      @input="follow"
     ></textarea>
   </div>
 </template>
@@ -56,9 +66,7 @@ defineExpose({ focus: () => textarea.value?.focus() })
 .fckt-editor {
   position: relative;
   display: grid;
-  /* Long lines scroll the whole editor, so the highlighted copy and the textarea move together. */
-  grid-template-columns: minmax(100%, max-content);
-  overflow-x: auto;
+  grid-template-columns: minmax(0, 1fr);
   font-family: var(--vp-font-family-mono);
   font-size: var(--vp-code-font-size);
   line-height: var(--vp-code-line-height);
@@ -72,6 +80,7 @@ defineExpose({ focus: () => textarea.value?.focus() })
   font: inherit;
   white-space: pre;
   overflow: hidden;
+  overflow-wrap: normal;
   tab-size: 2;
   min-height: calc(var(--min-lines) * var(--vp-code-line-height) * 1em + 40px);
 }
@@ -86,6 +95,8 @@ defineExpose({ focus: () => textarea.value?.focus() })
   color: var(--shiki-dark);
 }
 .fckt-editor > textarea {
+  overflow-x: auto;
+  overflow-y: hidden;
   resize: none;
   background: transparent;
   color: transparent;

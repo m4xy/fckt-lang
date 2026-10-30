@@ -1,8 +1,7 @@
 # Basic syntax
 
-A collection of fckt's basic syntax, with examples. Each section ends with a link to where the
-language reference says more, once it exists. If you know Kotlin, most of this will look familiar;
-[Coming from Kotlin](/coming-from-kotlin) lists the differences in one place.
+A tour of fckt's basic syntax, with examples. Coming from Kotlin? [Coming from Kotlin](/coming-from-kotlin)
+lists what's different in one place.
 
 ## Packages and imports
 
@@ -87,7 +86,7 @@ Top-level functions can be declared in any order, and can call each other recurs
 
 ## Values and variables
 
-A binding is a name and a value. There's no `val`: every binding is immutable.
+A binding is a name and a value. Every binding is immutable.
 
 ```fckt
 total = 42
@@ -119,8 +118,7 @@ Another name for a type is an alias: `type Names = List<String>`.
 
 ## Types with cases
 
-A type declared with braces has cases, and a value is exactly one of them. This is Kotlin's
-sealed interface, in one declaration:
+A type declared with braces has cases, and a value is exactly one of them:
 
 ```fckt
 type Shape {
@@ -140,7 +138,7 @@ name = "fckt"
 "${name.length} characters"     // an expression
 ```
 
-Values print like Kotlin's `toString()`: `Point(x=1, y=2)`, `[1, 2, 3]`, `Some(4)`.
+A value in a template prints as its type and fields: `Point(x=1, y=2)`, `[1, 2, 3]`, `Some(4)`.
 
 ## Conditional expressions
 
@@ -192,7 +190,7 @@ xs.map { it * 2 }               // [2, 4, 6, 8]
 xs + [5]                        // [1, 2, 3, 4, 5]
 ```
 
-A function's last argument can be a block after the call, as in Kotlin. A block with one parameter
+A function's last argument can be a block after the call. A block with one parameter
 calls it `it`.
 
 ## Ranges
@@ -203,7 +201,7 @@ calls it `it`.
 5.downTo(1)                     // [5, 4, 3, 2, 1]
 ```
 
-## Option instead of null
+## Missing values
 
 fckt has no `null`. A value that may be missing is an `Option`: `Some(x)` or `None`.
 

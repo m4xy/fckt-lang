@@ -55,6 +55,15 @@
   font-size: 0.9em;
 }
 
+/* Inline fckt code, coloured like the code blocks in each theme. */
+.vp-doc code.fckt-inline span {
+  color: var(--shiki-light);
+}
+
+.dark .vp-doc code.fckt-inline span {
+  color: var(--shiki-dark);
+}
+
 .vp-doc table code {
   white-space: nowrap;
 }

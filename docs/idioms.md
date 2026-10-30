@@ -9,7 +9,7 @@ written, with the imports it shows.
 type Customer(name: String, email: String, tier: String = "standard")
 ```
 
-A `Customer` has its fields, `copy`, equality and a readable `toString`. Fields with defaults can be
+A `Customer` has its fields, `copy`, equality, and a readable form in string templates. Fields with defaults can be
 left out: `Customer("Ada", "ada@example.com")`.
 
 ## Change a copy, not the original
@@ -109,9 +109,10 @@ attempt { checkedAge(-1) }      // Error(negative age: -1)
 
 Left unhandled, a failure in `main` stops the program with the reason on standard error.
 
-## Interfaces are specs
+## Describe what a module provides
 
-What Kotlin does with an interface, fckt does with a spec and the modules that follow it:
+A spec says what a module must define. Any module that follows it can be used where the spec is
+expected:
 
 ```fckt
 spec Greeting { greet(name: String): String }

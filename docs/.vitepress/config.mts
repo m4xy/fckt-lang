@@ -1,5 +1,8 @@
 import { defineConfig } from 'vitepress'
 import fckt from './fckt.tmLanguage.json'
+import { inlineFckt } from './inline-code'
+
+const highlightInline = await inlineFckt(fckt)
 
 export default defineConfig({
   title: 'fckt',
@@ -9,6 +12,7 @@ export default defineConfig({
   head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/fckt-lang/favicon.svg' }]],
   markdown: {
     languages: [{ ...(fckt as any), name: 'fckt', aliases: ['fk'] }],
+    config: highlightInline,
   },
   themeConfig: {
     logo: { light: '/lockup.svg', dark: '/lockup-dark.svg', alt: 'fckt' },

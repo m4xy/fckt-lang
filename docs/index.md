@@ -4,6 +4,7 @@ layout: home
 hero:
   name: fckt
   text: Frankly functional.
+  tagline: Write concise programs, and keep the side effects separate.
   image:
     light: /mark.svg
     dark: /mark-dark.svg

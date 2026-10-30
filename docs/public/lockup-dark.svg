@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-90 -860 2470 1000" role="img" aria-label="fckt">
+  <defs>
+    <linearGradient id="block" x1="10" y1="-760" x2="600" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1F6B55"/>
+      <stop offset="0.3" stop-color="#0F5E5C"/>
+      <stop offset="0.58" stop-color="#1E4F82"/>
+      <stop offset="0.8" stop-color="#4A4590"/>
+      <stop offset="1" stop-color="#7A3C70"/>
+    </linearGradient>
+    <linearGradient id="glyph" x1="10" y1="-760" x2="600" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8FF0BE"/>
+      <stop offset="0.3" stop-color="#1FBFAE"/>
+      <stop offset="0.58" stop-color="#3A8FD6"/>
+      <stop offset="0.8" stop-color="#9A8AE0"/>
+      <stop offset="1" stop-color="#D97BC8"/>
+    </linearGradient>
+  </defs>
+  <polygon points="66.8,-830 655.6,-830 526.8,90 -62,90" fill="url(#block)"/>
+  <g transform="translate(-52.5 0) skewX(-7.97)">
+    <path fill="url(#glyph)" d="M123 -414L221 -414Q243 -414 243 -436L243 -609Q243 -740 396 -740Q549 -740 549 -609L549 -540L461 -540L461 -609Q461 -652 406.5 -652Q352 -652 352 -609L352 -436Q352 -414 374 -414L472 -414L472 -326L374 -326Q352 -326 352 -304L352 -131Q352 0 199 0Q46 0 46 -131L46 -200L134 -200L134 -131Q134 -88 188.5 -88Q243 -88 243 -131L243 -304Q243 -326 221 -326L123 -326L123 -414Z"/>
+    <path fill="#E4EFEE" d="M899.0 12Q841.0 12 795.5 -7.0Q750.0 -26 718.5 -61.0Q687.0 -96 670.5 -146.0Q654.0 -196 654.0 -258Q654.0 -320 670.5 -370.0Q687.0 -420 718.5 -455.0Q750.0 -490 795.5 -509.0Q841.0 -528 898.0 -528Q978.0 -528 1026.5 -494.0Q1075.0 -460 1099.0 -406L1014.0 -360Q1000.0 -396 971.5 -417.0Q943.0 -438 898.0 -438Q836.0 -438 802.0 -400.5Q768.0 -363 768.0 -301V-215Q768.0 -154 802.0 -116.0Q836.0 -78 900.0 -78Q948.0 -78 978.5 -100.0Q1009.0 -122 1027.0 -160L1107.0 -111Q1082.0 -57 1031.0 -22.5Q980.0 12 899.0 12ZM1268.0 -740H1377.0V-293H1382.0L1463.0 -376L1608.0 -516H1737.0L1528.0 -313L1760.0 0H1629.0L1449.0 -251L1377.0 -184V0H1268.0ZM2111.0 0Q2043.0 0 2011.0 -36.5Q1979.0 -73 1979.0 -131V-428H1820.0V-516H1933.0Q1962.0 -516 1974.0 -527.5Q1986.0 -539 1986.0 -569V-698H2088.0V-516H2308.0V-428H2088.0V-88H2308.0V0Z"/>
+  </g>
+</svg>

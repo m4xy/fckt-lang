@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="fckt">
+  <defs>
+    <linearGradient id="block" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8FF0BE"/>
+      <stop offset="0.3" stop-color="#1FBFAE"/>
+      <stop offset="0.58" stop-color="#3A8FD6"/>
+      <stop offset="0.8" stop-color="#9A8AE0"/>
+      <stop offset="1" stop-color="#D97BC8"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.55"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="url(#block)"/>
+  <path transform="translate(7 0) skewX(-7.97) translate(20.25 87) scale(0.1)" fill="url(#glass)" d="M123 -414L221 -414Q243 -414 243 -436L243 -609Q243 -740 396 -740Q549 -740 549 -609L549 -540L461 -540L461 -609Q461 -652 406.5 -652Q352 -652 352 -609L352 -436Q352 -414 374 -414L472 -414L472 -326L374 -326Q352 -326 352 -304L352 -131Q352 0 199 0Q46 0 46 -131L46 -200L134 -200L134 -131Q134 -88 188.5 -88Q243 -88 243 -131L243 -304Q243 -326 221 -326L123 -326L123 -414Z"/>
+</svg>

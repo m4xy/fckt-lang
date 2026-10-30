@@ -117,6 +117,30 @@ add(2, 3)                       // 5
 
 If you don't need a parameter, call it `_`.
 
+### Functions that return functions
+
+A function can also give back a function. Here's the derivative from first principles: the slope
+of `f` at `x` is roughly `(f(x + h) - f(x)) / h` when `h` is very small. `derivative` takes `f` and
+returns a new function that works out that slope at any `x`:
+
+```fckt
+derivative(f: (Float) -> Float, h: Float = 0.000001): (Float) -> Float =
+  x -> (f(x + h) - f(x)) / h
+
+square(x: Float) = x * x
+cube(x: Float) = x * x * x
+
+slope = derivative(square)
+slope(3.0)                            // 6.000001000927568
+derivative(cube)(2.0)                 // 12.000006002210739
+derivative(derivative(cube))(2.0)     // 11.999290450148692
+derivative(sin)(0.0)                  // 0.9999999999998334
+```
+
+The exact answers are 6, 12, 12 and 1. The results are close because `h` is small, and the second
+derivative is a little further off because it approximates an approximation. Since the result of
+`derivative` is an ordinary function, you can pass it straight back in.
+
 ### Passing a block
 
 When a function's last parameter is a function, you can pass it as a block after the call instead.

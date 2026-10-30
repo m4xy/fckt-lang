@@ -36,7 +36,7 @@ main(args: List<String>) = println("${args.size} arguments")
 
 ## Print to the standard output
 
-`println` and `print` come from the `Console` effect. `main` needs no `@Console`: it may do anything, and whatever it does is handled before the program starts, `Console` by the terminal. Every other function declares the effects it uses.
+`println` and `print` come from `Console`, one of the standard library's [effects](#effects). `main` may use any effect without declaring it; the terminal handles `Console` for it.
 
 `println` takes a `String`, so print other values through a string template:
 
@@ -100,9 +100,6 @@ greeting = "Hello"
 var n = 0
 n += 1
 ```
-
-Changing state is an effect, `@Mutating`. A function that only changes locals it made itself, as
-`countPositive` above does, is still pure.
 
 ## Types
 
@@ -267,6 +264,10 @@ main() = Clock(now = ~42) { stamped("started") }
 
 `~42` is a function that ignores its arguments and gives 42. The same mechanism lets a test answer
 `Console` itself, so code that prints is tested without a terminal. See [Idioms](/idioms#test-code-that-does-i-o).
+
+`main` is the exception to declaring effects: it may do anything, and whatever it does is handled before the program starts, `Console` by the terminal.
+
+Changing a `var` is an effect too, `@Mutating`. A function that only changes locals it made itself, as `countPositive` above does, declares nothing and is still pure: no one else can see the change.
 
 ## Comments
 

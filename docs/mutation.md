@@ -101,7 +101,10 @@ The fields of a type's cases can be `var` too. You can change one after checking
 value is, as `is Node` does here:
 
 ```fckt
-type Tree { Leaf, Node(var left: Tree, value: Int, var right: Tree) }
+type Tree {
+  Leaf
+  Node(var left: Tree, value: Int, var right: Tree)
+}
 
 @Mutating insert(tree: Tree, x: Int): Tree = when (tree) {
   is Leaf -> Node(Leaf, x, Leaf)

@@ -159,8 +159,8 @@ This is how you'll usually call `map`, `filter` and `fold`:
 [1, 2, 3].fold(0) { acc, x -> acc + x }       // 6
 ```
 
-A block that takes one value can call it `it`, as `map` does here. When the block takes more than
-one, name them before `->`, as `fold` does.
+In the `map` example, `it` is the current item. You can use `it` whenever a block takes a single
+value. The `fold` block takes two values, so it names them, `acc` and `x`, before the `->`.
 
 If a list holds pairs, a lambda with two parameters takes each pair apart:
 

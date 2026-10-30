@@ -55,3 +55,18 @@ against fckt's `main` every day, so a change to the language shows up as a faile
 
 The kiln and testing pages, and everything under `docs/libraries` and `docs/examples`, need
 libraries built with kiln and aren't checked yet.
+
+## Lessons
+
+Each page in `docs/learn` is a lesson: an explanation, then a task the reader finishes in an editor
+and checks in their browser. Its task is four kinds of block, which the page turns into the exercise:
+
+- ` ```fckt lesson-starter `: the code the reader starts from. It should compile, but get the task
+  wrong.
+- ` ```fckt lesson-solution `: a finished version.
+- ` ```fckt lesson-check `: a `main` that calls `expect(passed, problem)` for each thing it checks.
+  It's compiled after the reader's code, and `problem` is what they're told when it fails.
+- ` ```text lesson-hint `: a hint, shown one at a time, as many as you like.
+
+`npm run check` runs each lesson's check against its solution, which has to pass, and against its
+starting code, which mustn't, so every lesson has something to do.

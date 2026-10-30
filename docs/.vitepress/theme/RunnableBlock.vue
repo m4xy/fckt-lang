@@ -2,6 +2,8 @@
 import { nextTick, ref, watch } from 'vue'
 import FcktEditor from './FcktEditor.vue'
 import { isWarm, run, type Outcome } from './runner'
+import { playgroundProgram } from '../examples.js'
+import { playgroundLink } from './share'
 
 // The Run and Edit controls under one of the docs' examples, and what running it printed.
 const props = defineProps<{ wrapper: HTMLElement; original: string; context: string[][] }>()
@@ -50,6 +52,9 @@ function reset() {
       <span v-if="running" class="fckt-spinner on-glass" aria-hidden="true"></span>
       <svg v-else aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L7.5 3.64A1 1 0 0 0 6 4.5z" /></svg>
     </button>
+    <a class="fckt-icon fckt-secondary" :href="playgroundLink(playgroundProgram(code, context))" aria-label="Open in the playground" title="Open in the playground">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>
+    </a>
     <button v-if="!editing" type="button" class="fckt-icon fckt-secondary" aria-label="Edit" title="Edit" @click="edit">
       <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.17 6.81a2.82 2.82 0 0 0-3.99-3.99L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z" /><path d="m15 5 4 4" /></svg>
     </button>

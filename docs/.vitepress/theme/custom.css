@@ -453,7 +453,7 @@
 }
 
 /* Links in the text take the sidebar's tint, a line at a time, with the underline in its blue. */
-.vp-doc a:not(.header-anchor) {
+.vp-doc a:not(.header-anchor, .fckt-icon) {
   background-image: var(--fckt-here-side);
   -webkit-background-clip: text;
   background-clip: text;
@@ -462,7 +462,7 @@
   color: transparent;
   text-decoration-color: var(--fckt-here-line);
 }
-.vp-doc a:not(.header-anchor):hover {
+.vp-doc a:not(.header-anchor, .fckt-icon):hover {
   color: transparent;
   text-decoration-thickness: 2px;
 }
@@ -495,4 +495,65 @@
 .VPButton.brand:hover,
 .fckt-run:hover:not(:disabled) {
   background-image: var(--fckt-button-hover) !important;
+}
+
+/* A link in the corner looks as its buttons do. */
+a.fckt-icon {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+}
+
+/* A lesson's task: the editor, its buttons, hints, and what the check found. */
+.fckt-lesson-task {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0;
+}
+.fckt-lesson-editor {
+  background: var(--vp-code-block-bg);
+  border-radius: 8px;
+}
+.fckt-lesson-hints {
+  margin: 0;
+  padding: 12px 16px 12px 36px;
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+  font-size: 14px;
+}
+.fckt-lesson-result {
+  border-radius: 8px;
+  border-top: 0;
+}
+.fckt-lesson-result.failed pre {
+  color: var(--vp-c-warning-1);
+}
+.fckt-lesson-passed {
+  margin: 0 !important;
+  font-family: var(--vp-font-family-base);
+  background-image: var(--fckt-here-side);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  width: fit-content;
+  font-weight: 500;
+}
+.fckt-lesson-done {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--vp-c-text-2);
+}
+.fckt-lesson-done::before,
+.VPSidebar a.fckt-done .text::after {
+  content: '✓';
+  margin: 0 6px;
+  background-image: var(--fckt-here-side);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

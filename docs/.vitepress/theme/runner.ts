@@ -1,5 +1,5 @@
 import { withBase } from 'vitepress'
-import { programOf, suggestedImports } from '../examples.js'
+import { lessonOutcome, lessonProgram, programOf, suggestedImports } from '../examples.js'
 
 // Compiles and runs fckt in the browser: fckt's own compiler and an OCaml toplevel, each compiled
 // to JavaScript and run in a worker, so the page stays responsive. Neither loads until the first run.
@@ -97,4 +97,28 @@ async function runOnce(code: string, context: string[][]): Promise<Outcome> {
   const text = shown(ran.output)
   if (!ran.ok) return { kind: 'error', text: [text, ran.errors.trim()].filter(Boolean).join('\n') }
   return { kind: 'printed', text }
+}
+
+export type Checked =
+  | { kind: 'passed' }
+  | { kind: 'failed'; text: string }
+  | { kind: 'error'; text: string }
+  | { kind: 'stopped'; text: string }
+
+// Runs a lesson's check against the reader's code: whether it passed, or the first thing it found
+// wrong, or why it didn't compile.
+export async function check(code: string, test: string): Promise<Checked> {
+  try {
+    const compiled = await compile(lessonProgram(code, test))
+    if (!compiled.ocaml) return { kind: 'error', text: errorsIn(compiled.errors, compiled.source, code) }
+    const timer = setTimeout(() => runner.stop(), STEP_LIMIT_MS)
+    const ran = await runner.ask({ ocaml: compiled.ocaml })
+    clearTimeout(timer)
+    if (!ran) return { kind: 'stopped', text: `Stopped after ${STEP_LIMIT_MS / 1000} seconds. Is something calling itself forever?` }
+    if (!ran.ok) return { kind: 'error', text: [shown(ran.output), ran.errors.trim()].filter(Boolean).join('\n') }
+    const outcome = lessonOutcome(ran.output)
+    return outcome.passed ? { kind: 'passed' } : { kind: 'failed', text: outcome.problem! }
+  } finally {
+    warm = true
+  }
 }

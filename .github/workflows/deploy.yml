@@ -23,9 +23,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # The whole history, so each page's last updated date is its own.
       - uses: actions/checkout@v4
         with:
           path: fckt-lang
+          fetch-depth: 0
       # fckt builds Kastor from ../kastor.
       - uses: actions/checkout@v4
         with:

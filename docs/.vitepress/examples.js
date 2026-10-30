@@ -157,3 +157,41 @@ export function resultsOf(stdout) {
 // `// -7, the same as subtractFrom(3, 10)`.
 export const matches = (expected, got) =>
   got !== undefined && (got === expected || expected.startsWith(got + ',') || expected.startsWith(got + ' '))
+
+// An example as a program to open in the playground: what programOf makes, with results printed
+// plainly instead of marked for checking.
+export function playgroundProgram(code, context) {
+  const lines = programOf(code, context).source.split('\n').filter(line => !/^\s*println\("@@[<>]\d+"\)$/.test(line))
+  const out = []
+  for (let i = 0; i < lines.length; i++) {
+    const value = lines[i].match(/^  result(\d+) = (.*)$/)
+    if (value && lines[i + 1] === `  println("@@${value[1]} \${result${value[1]}}")`) {
+      out.push(`  println("\${${value[2]}}")`)
+      i++
+    } else {
+      out.push(lines[i].replace(/println\("@@(\d+) \$\{(result\d+)\}"\)/, 'println("${$2}")'))
+    }
+  }
+  // main ends with Unit so it has a result whatever came before; a println already gives one.
+  const end = out.lastIndexOf('  Unit')
+  if (end > 0 && /^  println\(/.test(out[end - 1])) out.splice(end, 1)
+  return out.join('\n')
+}
+
+// A lesson's check: the reader's code with the lesson's hidden test after it. The test's main calls
+// expect(passed, problem) for each thing it checks.
+const EXPECT = `@Console expect(passed: Boolean, problem: String): Unit = if (passed) println("@@pass") else println("@@fail $problem")`
+
+export function lessonProgram(code, check) {
+  const isImport = line => line.startsWith('import ')
+  const lines = [...code.split('\n'), '', ...check.split('\n')]
+  const imports = [...new Set(['import fckt.io.Console', ...lines.filter(isImport)])]
+  return [...imports, '', ...code.split('\n').filter(l => !isImport(l)), '', EXPECT, '', ...check.split('\n').filter(l => !isImport(l))].join('\n') + '\n'
+}
+
+// Whether a lesson's check passed, and if not, the first thing it found wrong.
+export function lessonOutcome(stdout) {
+  const failed = stdout.split('\n').find(l => l.startsWith('@@fail '))
+  if (failed) return { passed: false, problem: failed.slice('@@fail '.length) }
+  return stdout.includes('@@pass') ? { passed: true } : { passed: false, problem: 'The check printed nothing.' }
+}

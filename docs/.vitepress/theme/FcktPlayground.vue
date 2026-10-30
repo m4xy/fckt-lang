@@ -3,6 +3,7 @@ import { onMounted, ref, watch } from 'vue'
 import FcktEditor from './FcktEditor.vue'
 import { examples } from './playground-examples'
 import { isWarm, run, type Outcome } from './runner'
+import { decode, encode } from './share'
 
 // A whole program to edit and run. The program is kept in the page's address when shared, and in
 // this browser between visits.
@@ -13,8 +14,6 @@ const outcome = ref<Outcome | null>(null)
 const copied = ref(false)
 const example = ref('')
 
-const encode = (text: string) => btoa(String.fromCharCode(...new TextEncoder().encode(text))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
-const decode = (text: string) => new TextDecoder().decode(Uint8Array.from(atob(text.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0)))
 
 onMounted(() => {
   const shared = location.hash.match(/^#code=(.+)$/)

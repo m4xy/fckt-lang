@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 import fckt from './fckt.tmLanguage.json'
 import { inlineFckt } from './inline-code'
-import { runnable } from './runnable'
+import { lessons, runnable } from './runnable'
 
 const highlightInline = await inlineFckt(fckt)
 
@@ -10,21 +10,24 @@ export default defineConfig({
   description: 'A statically typed functional programming language.',
   base: '/fckt-lang/',
   cleanUrls: true,
+  lastUpdated: true,
   head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/fckt-lang/favicon.svg' }]],
   markdown: {
     languages: [{ ...(fckt as any), name: 'fckt', aliases: ['fk'] }],
     config: md => {
       highlightInline(md)
       runnable(md)
+      lessons(md)
     },
   },
   themeConfig: {
     logo: { light: '/lockup-outlined.svg', dark: '/lockup-outlined-dark.svg', alt: 'fckt' },
     siteTitle: false,
     nav: [
-      { text: 'Docs', link: '/getting-started', activeMatch: '^/(?!standard-library/|libraries/|examples/|playground|$)' },
+      { text: 'Docs', link: '/getting-started', activeMatch: '^/(?!standard-library/|libraries/|examples/|learn/|playground|$)' },
       { text: 'Standard library', link: '/standard-library/', activeMatch: '^/standard-library/' },
       { text: 'Libraries', link: '/libraries/', activeMatch: '^/libraries/' },
+      { text: 'Learn', link: '/learn/', activeMatch: '^/learn/' },
       { text: 'Examples', link: '/examples/', activeMatch: '^/examples/' },
       { text: 'Playground', link: '/playground' },
     ],
@@ -54,6 +57,18 @@ export default defineConfig({
             { text: 'SQLite', link: '/libraries/sqlite' },
             { text: 'Regular expressions', link: '/libraries/regex' },
             { text: 'Command-line arguments', link: '/libraries/cli' },
+          ],
+        },
+      ],
+      '/learn/': [
+        {
+          text: 'Learn fckt',
+          items: [
+            { text: 'Overview', link: '/learn/' },
+            { text: 'Values', link: '/learn/values' },
+            { text: 'Functions', link: '/learn/functions' },
+            { text: 'Lists and lambdas', link: '/learn/lists' },
+            { text: 'Records', link: '/learn/records' },
           ],
         },
       ],
@@ -108,6 +123,11 @@ export default defineConfig({
     },
     socialLinks: [{ icon: 'github', link: 'https://github.com/m4xy/fckt' }],
     outline: { level: [2, 3], label: 'On this page' },
+    editLink: {
+      pattern: 'https://github.com/m4xy/fckt-lang/edit/main/docs/:path',
+      text: 'Edit this page on GitHub',
+    },
+    lastUpdated: { text: 'Last updated', formatOptions: { dateStyle: 'medium' } },
     search: { provider: 'local' },
   },
 })

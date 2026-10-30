@@ -264,9 +264,13 @@
 @keyframes fckt-spin {
   to { transform: rotate(1turn); }
 }
+/* With reduced motion, VitePress stops every animation; this one is the only sign something is
+   happening, so it keeps turning, slowly. */
 @media (prefers-reduced-motion: reduce) {
   .fckt-spinner {
-    animation-duration: 3s;
+    animation-duration: 2.5s !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: infinite !important;
   }
 }
 .fckt-loading {

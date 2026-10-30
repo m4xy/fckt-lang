@@ -67,3 +67,8 @@
 .vp-doc table code {
   white-space: nowrap;
 }
+
+/* The search button shows no keyboard shortcut hint. */
+.DocSearch-Button-Keys {
+  display: none !important;
+}

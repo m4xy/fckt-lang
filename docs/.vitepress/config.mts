@@ -6,7 +6,7 @@ const highlightInline = await inlineFckt(fckt)
 
 export default defineConfig({
   title: 'fckt',
-  description: "A functional programming language with Kotlin's syntax, compiled to OCaml.",
+  description: 'A statically typed functional programming language.',
   base: '/fckt-lang/',
   cleanUrls: true,
   head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/fckt-lang/favicon.svg' }]],

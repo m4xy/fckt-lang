@@ -3,7 +3,7 @@ layout: home
 
 hero:
   name: fckt
-  text: Kotlin's syntax. Functional all the way down.
+  text: Functional all the way down.
   tagline: A statically typed functional language where every function's type tells you what it does to the outside world.
   image:
     light: /mark.svg
@@ -19,7 +19,7 @@ hero:
 
 features:
   - title: Easy to read
-    details: Records, pattern matching, string templates and trailing lambdas, in a clean syntax that will look familiar if you've written Kotlin. Values don't change unless you say they can.
+    details: Records, pattern matching, string templates and trailing lambdas, in a clean syntax that will look familiar if you've used a C-style language. Values don't change unless you say they can.
   - title: Effects you can see
     details: If a function prints, reads a file or can fail, its declaration says so. If it says nothing, it's pure.
   - title: Tests without mocks

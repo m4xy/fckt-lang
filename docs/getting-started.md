@@ -147,3 +147,5 @@ Each folder has a README that explains how to install it.
 
 - [Basic syntax](/basic-syntax) walks through the language one feature at a time.
 - [Idioms](/idioms) shows how to do common things.
+- The Language pages, starting with [Types](/types), go into each feature in depth.
+- [Building with kiln](/kiln) covers projects, dependencies and publishing.

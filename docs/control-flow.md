@@ -69,7 +69,7 @@ error: this when doesn't cover every Int; add an else
 
 ## Patterns
 
-A branch's pattern can be much more than a single value.
+A pattern can be more than a single value.
 
 ### Literals
 
@@ -131,9 +131,10 @@ firstTwo([7])                   // just 7
 
 ## Guards
 
-A guard adds a condition to a branch. Write `if` and the condition after the pattern. The branch
-only matches when the pattern fits and the condition is true, and the condition can use the names
-the pattern gave:
+A guard adds a condition to a branch. The examples use [`Option`](/collections#option), which is
+either `Some(value)` or `None`. Write `if` and the condition after the pattern. The branch
+matches only when the pattern fits and the condition is true. The condition can use any names the
+pattern introduced:
 
 ```fckt
 classify(n: Option<Int>) = when (n) {
@@ -146,8 +147,8 @@ classify(Some(500))             // big
 classify(Some(5))               // some 5
 ```
 
-A guarded branch doesn't count towards covering every case, because its condition might be false.
-Without the plain `Some(x)` branch, this wouldn't compile:
+Because a guard might be false, a guarded branch doesn't count towards covering every case. Without
+the plain `Some(x)` branch, you'd get this error:
 
 ```
 error: this when doesn't cover Some(_); add it, or an else
@@ -195,7 +196,7 @@ both(true, false)               // one
 ## Checking a case with is
 
 Outside a `when`, `x is Circle` asks whether `x` is a `Circle`, and `x !is Circle` asks the
-opposite. Where the answer decides what runs next, fckt narrows the type for you:
+opposite. When the answer decides what runs next, the code that runs can rely on it:
 
 ```fckt
 radiusOf(shape: Shape) = if (shape is Circle) shape.radius else 0.0
@@ -205,8 +206,9 @@ bigCircle(shape: Shape) = shape is Circle && shape.radius > 10.0
 notCircle(shape: Shape) = if (shape !is Circle) "not a circle" else "radius ${shape.radius}"
 ```
 
-In `radiusOf`, the `if` branch knows `shape` is a `Circle`. After `&&`, so does the rest of the
-condition. With `!is`, it's the `else` branch that knows.
+In `radiusOf`, `shape` is treated as a `Circle` inside the `if` branch, so `shape.radius` works.
+After `&&`, the rest of the condition can use it the same way. With `!is`, it's the `else` branch
+that can.
 
 ## Taking values apart
 

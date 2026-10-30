@@ -15,7 +15,7 @@ the declaration tells you everything the function can do.
 
 In most languages, you can't tell from a function's declaration whether it's pure. Any function can
 print or write to a database, and you only find out by reading it. In fckt, a function that does
-any of those things has to say so:
+any of those things says so in its declaration:
 
 ```fckt
 import fckt.io.Console
@@ -26,7 +26,7 @@ total(prices: List<Int>) = prices.sum()
 ```
 
 `total` declares no effects, so it can only add up the list. `report` prints, so it's marked
-`@Console`. If `total` tried to print, it wouldn't compile:
+`@Console`. If `total` tried to print, you'd get this error:
 
 ```
 error: 'total' does @Console, so it must say so: @Console total(...)
@@ -75,5 +75,5 @@ fail.
 ## What fckt isn't
 
 fckt is a young language. Its standard library covers text, collections, files, processes and
-time, but it's still small. Programs compile to native executables
-and don't run on the JVM, so Java libraries aren't available.
+time, but it's still small. Programs compile to native executables and
+don't run on the JVM, so Java libraries aren't available.

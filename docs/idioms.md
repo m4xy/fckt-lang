@@ -15,7 +15,8 @@ can leave it out: `Customer("Ada", "ada@example.com")`.
 
 ## Change a copy, not the original
 
-Values don't change once they're made. To get one with a different field, copy it:
+Values don't change once they're made. To get one with a different field, copy it. This uses the
+`Point` type from [Basic syntax](/basic-syntax#types):
 
 ```fckt
 p = Point(1, 2)
@@ -101,7 +102,8 @@ quarter(12)                     // Some(3)
 quarter(6)                      // None
 ```
 
-You can do the same with your own types, by writing a module with `bind` and `pure` functions.
+You can do the same with your own types, by writing a module with `bind` and `pure` functions, as
+[Specs and functors](/specs-and-functors#blocks-that-chain-steps) explains.
 
 ## Fail, and catch the failure
 

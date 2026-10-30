@@ -13,8 +13,8 @@ xs.size                         // 8
 xs.contains(4)                  // true
 ```
 
-Lists never change. Every function on this page that seems to modify a list gives you a new one
-instead.
+Lists never change. Functions that look like they modify a list, such as `filter` and `sorted`,
+give you a new list.
 
 ### Transform a list
 
@@ -217,8 +217,8 @@ xs.toSet()                      // [1, 2, 3, 4, 5, 6, 9]
 
 ## Arrays
 
-An array has a fixed size, and you can change its items in place. Reach for one when you need fast
-access by position, or when you're changing items often:
+An array has a fixed size, and you can change its items in place. Use one when you need fast access by
+position, or when you change items often:
 
 ```fckt
 import fckt.collections.Array
@@ -230,7 +230,7 @@ arr[2] += 1
 arr.toList()                    // [0, 7, 1]
 ```
 
-Changing an array is the `@Mutating` effect. If an array is created inside a function and never
+Changing an array is the `@Mutating` [effect](/mutation). If an array is created inside a function and never
 leaves it, the function doesn't need to declare it.
 
 ## Mutable

@@ -32,7 +32,8 @@ main() = {
 }
 ```
 
-A module can hold functions, values, types and other modules.
+A module can hold functions, values, types and other modules. The two uses of `private` in `Ratios`
+are explained under [Visibility](#visibility).
 
 ### Nested modules
 
@@ -82,9 +83,9 @@ error: 'gcd' is private to Ratios
 ### Private constructors
 
 Sometimes you want everyone to be able to read a type, but only its module to create one. `Ratio`
-is declared as `type Ratio private(...)`, so code outside `Ratios` can read `half.num`, but has to go
-through `Ratios.make` to get a `Ratio`. That way, every ratio is in lowest
-terms. Building one directly doesn't compile:
+is declared as `type Ratio private(...)`, so code outside `Ratios` can read `half.num`, but needs
+`Ratios.make` to get a `Ratio`. That way, every ratio is in lowest terms. Building one directly gives
+an error:
 
 ```fckt
 Ratios.Ratio(1, 2)
@@ -123,7 +124,7 @@ src/
     └── Labels.fk
 ```
 
-How a file is named decides what it can hold:
+A file's name decides what it can hold:
 
 - **A file whose name starts with a capital letter** holds one declaration with the same name.
   `Shapes.fk` holds `module Shapes { /* ... */ }`. It can also be a type, a spec or an effect. Anything
@@ -193,7 +194,7 @@ main() = println(area("a square"))
 error: 'area' is imported from geometry.Shapes.area and text.Labels.area; import the one you mean by name
 ```
 
-Importing the one you want by name settles it:
+To fix it, import the one you want by name:
 
 ```fckt
 import geometry.Shapes.*

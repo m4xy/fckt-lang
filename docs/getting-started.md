@@ -1,7 +1,7 @@
 # Get started with fckt
 
 fckt is a functional programming language. You write it in `.fk` files, and the fckt compiler turns
-them into OCaml, which then runs as a native program.
+them into programs you can run.
 
 On this page you'll install fckt, run your first program, and set up a project with kiln, fckt's
 build tool.
@@ -141,7 +141,7 @@ and `kiln tasks` lists everything else kiln can do.
   errors as you type, jumps to definitions, shows inferred types when you hover, and formats code.
 - **VS Code**: `editors/vscode` adds syntax highlighting.
 
-Each folder has a README that explains how to install it.
+[Editor support](/editors) explains how to install them.
 
 ## What's next
 

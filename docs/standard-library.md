@@ -42,6 +42,7 @@ in detail.
 
 These modules let you write a series of steps as a block, with `by` taking the value out of each
 step. What happens when a step has no value depends on the module.
+[Specs and functors](/specs-and-functors#blocks-that-chain-steps) explains how these blocks work.
 
 `Results` stops at the first `Error`:
 
@@ -301,5 +302,5 @@ import fckt.text.Digests.*
 
 ## fckt.values
 
-`fckt.values.Mutable` holds a single value that can change, as `Mutable(0)` with
-`counter.value += 1`. See [Collections and text](/collections#mutable).
+`fckt.values.Mutable` holds a single value that can change: `Mutable(0)` makes one, and
+`counter.value += 1` changes it. See [Collections and text](/collections#mutable).

@@ -103,7 +103,7 @@ use them.
 
 ## Tests and effects
 
-A test can use effects the same way `main` can. If it prints, it prints to the terminal.
+A test can use [effects](/effects) the same way `main` can. If it prints, it prints to the terminal.
 
 Often, though, you want to control an effect instead: answer it with known values, or record what
 the code did. You can do that by handling the effect inside the test. When several tests need the
@@ -146,8 +146,8 @@ module Sales {
 fresh ledger. You can also put `@Fixtures` on a single test. When a test has several fixtures, the
 first one listed runs outermost, and a section's fixtures run outside its tests' own.
 
-A fixture only applies where you name it. If a test uses an effect that nothing handles, it doesn't
-compile.
+A fixture only applies where you name it. If a test uses an effect that nothing handles, you get an
+error when the tests compile.
 
 ## Check that a format reads back what it writes
 

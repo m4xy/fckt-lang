@@ -56,8 +56,8 @@ the editor checks each file as kiln would, and you can go to declarations in you
 - **Find usages**: press Alt-F7 on a declaration. Cmd-Shift-F7 highlights its uses in the current
   file.
 - **Types**: hover over a name, or press F1, to see its type. For a function, this includes what it
-  does: `does @Console`, `pure`, or `does what f does` when it does whatever a function you pass it
-  does.
+  does: `does @Console`, `pure`, or `does what f does` for a function whose effects come from a function
+  you pass it.
 
 ## VS Code
 

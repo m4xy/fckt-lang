@@ -49,8 +49,8 @@ main() = {
 }
 ```
 
-Printing is an [effect](#effects). Most functions have to say which effects they use, but `main`
-doesn't need to: it's allowed to do anything.
+Printing is an [effect](#effects). Other functions list the effects they use, but `main` doesn't
+need to, because it can do anything.
 
 ## Functions
 
@@ -60,7 +60,7 @@ You write a function as its name, its parameters, and then `=` followed by what 
 sum(a: Int, b: Int): Int = a + b
 ```
 
-You can leave out the return type, and fckt will work it out:
+If you leave out the return type, it's worked out from the body:
 
 ```fckt
 double(x: Int) = x * 2
@@ -85,6 +85,9 @@ countPositive(xs: List<Int>): Int = {
   n
 }
 ```
+
+`forEach` runs the block once for each item, and calls the item `it`. [Lists](#lists) has more on
+blocks like this.
 
 You can declare functions in any order, and they can call each other.
 
@@ -172,7 +175,7 @@ area(shape: Shape): Float = when (shape) {
 }
 ```
 
-Inside the `is Circle` branch, fckt knows `shape` is a `Circle`, so you can read `shape.radius`.
+Inside the `is Circle` branch, `shape` is treated as a `Circle`, so you can read `shape.radius`.
 
 Without a value to check, `when` runs the first branch whose condition is true:
 
@@ -185,7 +188,8 @@ describe(n: Int) = when {
 ```
 
 Branches can also match the shape of a value. Here, `[]` matches an empty list, and `[x, *_]`
-matches a list that starts with `x`:
+matches a list that starts with `x`. `Some` and `None` are explained under
+[Missing values](#missing-values):
 
 ```fckt
 firstEven(xs: List<Int>): Option<Int> = when (xs.filter { it % 2 == 0 }) {

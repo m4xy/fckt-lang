@@ -37,7 +37,7 @@ The original stays as it was:
 p.copy(y = 5)                   // Point(x=1, y=5)
 ```
 
-If you need a field that does change, mark it `var`.
+If you need a field that does change, mark it `var`. [Mutation](/mutation) explains how.
 
 ### Equality and printing
 
@@ -147,13 +147,13 @@ Functions take type parameters the same way. See [Functions](/functions#generic-
 ## Hiding how a type works
 
 Sometimes a type has rules its values must follow, like a temperature that can't go below absolute
-zero. If any code could build one, nothing would stop it breaking those rules. fckt has two ways to
-make sure only one module can build a type.
+zero. If any code could build one, any code could break those rules. There are two ways to let only one
+module build a type.
 
 ### Private constructors
 
-Write `private` before a record's fields, and only the module it's declared in can build it. Code
-outside can still read its fields:
+A [module](/modules) groups declarations under one name. If you write `private` before a record's fields, only the module that declares it can build one.
+Code outside can still read its fields:
 
 ```fckt
 module Temperatures {
@@ -164,7 +164,10 @@ module Temperatures {
 Temperatures.of(20.0)           // Some(Celsius(degrees=20.0))
 ```
 
-Building one outside the module doesn't compile:
+`of` gives back an [`Option`](/collections#option): `Some` with a value, or `None` when the
+temperature is impossible.
+
+If you build one outside the module, you get this error:
 
 ```
 error: Celsius's constructor is private to Temperatures
@@ -172,8 +175,8 @@ error: Celsius's constructor is private to Temperatures
 
 ### Opaque types
 
-An opaque type goes further. Outside its module, nobody can see what it's made of: they can hold a
-value, store it and pass it back to the module's functions, but not look inside.
+An opaque type goes further. Code outside its module can't see what it's made of. It can hold a
+value, store it and pass it back to the module's functions, but it can't look inside.
 
 ```fckt
 module Ratios {
@@ -183,8 +186,8 @@ module Ratios {
 }
 ```
 
-Inside `Ratios`, a `Ratio` is an `Int`. Outside it, it's only a `Ratio`, so treating it as a number
-doesn't compile:
+Inside `Ratios`, a `Ratio` is an `Int`. Outside it, it's only a `Ratio`, so using it as a
+number gives an error:
 
 ```
 error: type mismatch: expected Int but found Ratios.Ratio

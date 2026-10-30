@@ -8,7 +8,7 @@ If you haven't installed kiln yet, [Getting started](/getting-started#install-ki
 ## Projects
 
 A kiln project is a folder with a `build.fk` file. The smallest one names the project and applies
-the `Fckt` plugin, which knows how to build fckt code:
+the `Fckt` plugin, which builds fckt code:
 
 ```fckt
 // build.fk
@@ -121,7 +121,7 @@ project = Project(name = "shop")
 plugins = [Fckt(), FkTests()]
 ```
 
-This is how you add testing; see [Testing](/testing).
+This is how you add testing. [Testing](/testing) covers the rest.
 
 ### Writing a plugin
 
@@ -142,12 +142,12 @@ module Greetings(W: Words = Hello) : Plugin {
 }
 ```
 
-`Greetings` is a functor, so it can be configured: `Greetings()` uses `Hello`, and
+`Greetings` is a [functor](/specs-and-functors#functors), so it can be configured: `Greetings()` uses `Hello`, and
 `Greetings(W = Howdy)` uses whatever `Howdy` module the build script defines. The plugin's project
 depends on kiln's library with `dependencies = [kiln()]`.
 
-Plugins only add tasks; they never change each other's. Two plugins can't add tasks with the same
-name.
+Plugins only add tasks. They never change another plugin's tasks, and two plugins can't add tasks
+with the same name.
 
 ## settings.fk
 
@@ -214,8 +214,8 @@ This checks the project and copies it into `~/.kiln/repository/uk.m4xy/units/1.0
 projects on your machine can use it as `library("uk.m4xy:units:1.0.0")`. A library can only depend
 on other published libraries, not on project folders, since those might change.
 
-Projects that use your library are checked against its interface, not its code. So every public
-function and value in a library has to state its type:
+Projects that use your library are checked against its interface, not its code. So in a library,
+write out the type of every public function and value:
 
 ```fckt
 module Prices {

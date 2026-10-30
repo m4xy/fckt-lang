@@ -18,8 +18,7 @@ spec Counter {
 }
 ```
 
-A module follows a spec by naming it after a colon. It then has to define everything the spec
-lists. Here are two counters that store their count in different ways:
+A module follows a spec by naming it after a colon, and defines everything the spec lists. Here are two counters that store their count in different ways:
 
 ```fckt
 module Tally : Counter {
@@ -41,7 +40,7 @@ Tally.count(three)                                // 3
 Clicks.count(Clicks.inc(Clicks.zero))             // 1
 ```
 
-If a module leaves something out, it won't compile:
+If a module leaves something out, you get an error:
 
 ```
 error: Tally doesn't define 'inc', which its spec Counter needs
@@ -63,13 +62,13 @@ x: Int = Tally.inc(Tally.zero) + 1
 error: '+' can't be applied to Tally.T and Int: there's no operator plus
 ```
 
-That way, the only counts that exist are the ones `Tally` made. Leave out `opaque` and everyone can
+That way, the only counts that exist are the ones `Tally` made. Without `opaque`, other code can
 see that the type is an `Int`.
 
 ## Specs that build on other specs
 
 A spec can include another spec's members by naming it after a colon. A module that follows the
-bigger spec has to provide everything in both, and can be used wherever either is expected.
+bigger spec provides everything in both, and can be used wherever either is expected.
 
 A spec's function can also have a body. That body is the default: a module that follows the spec
 gets it unless it defines the function itself.
@@ -96,8 +95,9 @@ Robot.greet("Ada")                                // Hello, Ada. I'm R2.
 Butler.greet("Ada")                               // Good evening, Ada.
 ```
 
-The standard library's `Monad` spec works this way: a module only has to define `pure` and `bind`,
-and gets `map` and `product` built from them.
+The standard library's `Monad` spec works this way. A monad is a way of chaining steps, where each
+step's result decides how the next one runs, such as stopping at the first `None`. A module that
+follows `Monad` defines `pure` and `bind`, and gets `map` and `product` built from them.
 
 ## Modules with type parameters
 

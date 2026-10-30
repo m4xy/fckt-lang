@@ -29,8 +29,8 @@ greet(name: String) = "Hello, $name"
 main() = println(greet("Ada"))
 ```
 
-The compiler checks the arguments against the annotation's fields. Here, `handler` has to be a
-function from `String` to `String`:
+The compiler checks the arguments against the annotation's fields. Here, `handler` takes a
+function from `String` to `String`, so passing `count` gives an error:
 
 ```fckt
 count(n: Int) = n + 1
@@ -43,8 +43,8 @@ x = 1
 error: type mismatch: expected (String) -> String but found (Int) -> Int
 ```
 
-An argument has to be a constant, such as `1` or `"text"`, or a reference to something in your
-program. It can't be a calculation:
+Each argument is a constant, such as `1` or `"text"`, or a reference to something in your program.
+A calculation gives an error:
 
 ```fckt
 @Label("a" + "b")
@@ -121,7 +121,8 @@ import fckt.effects.Failure.*
 @Io report(line: String) = if (line == "") fail("nothing to report") else println(line)
 ```
 
-`report` now uses `@Console` and `@Fail`, and anything that calls it has to say so:
+`report` now uses `@Console` and `@Fail`, so a function that calls it declares both. Declaring only
+one gives an error:
 
 ```fckt
 @Console summary(line: String) = report(line)

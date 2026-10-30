@@ -111,8 +111,8 @@ There are four steps.
 copying the core into the program. Use `--separate` on its own if you want that without any
 libraries.
 
-Because programs are checked against a library's interface, every public function and value in a
-library has to state its type.
+Because programs are checked against a library's interface, write out the type of every public
+function and value in a library.
 
 ## Symbols
 
@@ -149,4 +149,4 @@ fckt --test test --marker uk.m4xy.fktests.api.Test --runner uk.m4xy.fktests.runn
 ```
 
 `--fixtures uk.m4xy.fktests.api.Fixtures` runs each test inside the fixtures listed on it. fk-tests'
-kiln plugin passes all of this for you; see [Testing](/testing).
+kiln plugin passes all of this for you, as [Testing](/testing) describes.

@@ -35,13 +35,13 @@ type Account(owner: String, var balance: Int)
 ```
 
 `deposit` changes an account that its caller passed in, and the caller can see the new balance, so
-it declares `@Mutating`. Leaving it out is an error:
+it declares `@Mutating`. Without it, you get an error:
 
 ```
 error: 'deposit' does @Mutating, so it must say so: @Mutating deposit(...)
 ```
 
-Fields without `var` can't be changed at all:
+Fields without `var` can't be changed. Changing `x` on a `Point` from [Types](/types) gives this error:
 
 ```
 error: Point's x can't be changed; declare it with var x: ...
@@ -49,9 +49,8 @@ error: Point's x can't be changed; declare it with var x: ...
 
 ## Changes that stay inside a function
 
-fckt tracks where each changeable value came from. If a function makes a value and changes it, and
-the value never leaves the function, the change is invisible from outside, and the function stays
-pure:
+If a function makes a value and changes it, but the value never leaves the function, nobody outside
+can see the change. The function is still pure:
 
 ```fckt
 total(amounts: List<Int>): Int = {
@@ -98,8 +97,8 @@ next()                          // 2
 
 ## Cases with fields that can change
 
-The fields of a type's cases can be `var` too. Check which case a value is first, so fckt knows the
-field is there:
+The fields of a type's cases can be `var` too. You can change one after checking which case the
+value is, as `is Node` does here:
 
 ```fckt
 type Tree { Leaf, Node(var left: Tree, value: Int, var right: Tree) }

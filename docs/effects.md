@@ -7,7 +7,7 @@ the effects it uses, so you can tell what a function might do by reading its dec
 ## Declaring effects
 
 Put an effect's name, with an `@`, before the function's name. `println` uses the `Console` effect,
-so a function that calls it has to declare `@Console`:
+so a function that calls it declares `@Console`:
 
 ```fckt
 import fckt.io.Console
@@ -19,8 +19,8 @@ shout(s: String) = s + "!"
 
 `shout` declares nothing, so it's pure: it only works out its result.
 
-Effects carry up through calls. A function that calls `greet` uses `Console` too, so it has to
-declare it as well. If it doesn't, you get an error:
+Effects carry up through calls. A function that calls `greet` uses `Console` too, so it declares
+`@Console` as well. Without it, you get an error:
 
 ```fckt
 welcome(name: String) = greet(name)
@@ -61,8 +61,8 @@ report(Logger(println), 3)      // prints total: 3
 report(Logger(~Unit), 4)        // prints nothing
 ```
 
-A pure function fits anywhere a function with effects is expected, which is why `~Unit` works. The
-other way round doesn't. A field typed `(String) -> Unit` only accepts pure functions:
+You can pass a pure function where a function with effects is expected, which is why `~Unit` works.
+The opposite isn't allowed: a field typed `(String) -> Unit` only accepts pure functions:
 
 ```
 error: type mismatch: expected (String) -> Unit but found @Console (String) -> Unit
@@ -95,7 +95,7 @@ effect. Here, the clock always says 42:
 Clock(now = ~42) { stamped("ready") }   // [42] ready
 ```
 
-If nothing handles `Clock`, the program doesn't compile:
+If nothing handles `Clock`, you get an error:
 
 ```
 error: main does @Clock, but nothing handles it: run it in a handler, like Clock(...) { ... }
@@ -106,7 +106,7 @@ error: main does @Clock, but nothing handles it: run it in a handler, like Clock
 ### Effects that are labels
 
 Some effects have no operations. They're labels that mark what a function does in a way the
-compiler can't see for itself, such as calling into code outside fckt through an `external`
+compiler can't see for itself, such as calling into code outside fckt through an [`external`](/externals)
 declaration:
 
 ```fckt
@@ -120,8 +120,8 @@ effect Audit
 }
 ```
 
-Anything that calls `transfer` now has to declare `@Audit`, so every place that writes to the audit
-log is marked.
+Anything that calls `transfer` declares `@Audit` too, so every place that writes to the audit log is
+marked.
 
 ### Generic effects
 
@@ -159,8 +159,8 @@ when they hold functions: `type Queue<@E>(var tasks: List<@E () -> Unit>)`.
 
 ## Grouping effects
 
-If several effects often go together, you can give the group a name. Declare an annotation, and put
-the effects on it:
+If several effects often go together, you can give the group a name. Declare an
+[annotation](/annotations), and put the effects on it:
 
 ```fckt
 effect Network
@@ -179,8 +179,8 @@ effect Network
 
 ## Effects on modules
 
-You can put effects on a module. Every function in it is then limited to those effects. A `@Pure`
-module can't contain any function that does anything but compute:
+You can put effects on a [module](/modules). Every function in it is then limited to those effects. In a `@Pure`
+module, functions can only compute their results:
 
 ```fckt
 @Pure module Pricing {
@@ -200,7 +200,7 @@ code that talks to the outside world.
 
 ## Hiding what a module does
 
-Say you have a spec for storing notes. One module stores them in memory, another in a database, and
+Say you have a [spec](/specs-and-functors) for storing notes. One module stores them in memory, another in a database, and
 each uses different effects to do it. Code that stores a note shouldn't need to change when you
 switch between them.
 
@@ -233,7 +233,7 @@ module MemoryNotes : Notes {
 ```
 
 `MemoryNotes` changes a variable, which is `@Mutating`, but `remember` only declares
-`@Persistence`. Declaring `@Mutating` instead isn't enough:
+`@Persistence`. Declaring `@Mutating` instead gives an error:
 
 ```
 error: 'remember' does @Persistence, so it must say so: @Persistence remember(...)
@@ -260,7 +260,7 @@ module FixedClock : Clock {
 main() = println(stamped("ready"))    // [1700000000] ready
 ```
 
-An effect without `@HandledBy` has to be handled before `main` reaches it.
+If an effect has no `@HandledBy`, handle it yourself somewhere inside `main`.
 
 ## Copies of an effect
 

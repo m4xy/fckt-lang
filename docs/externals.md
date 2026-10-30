@@ -34,7 +34,7 @@ external String.repeat(times: Int): String = "(fun s n -> String.concat \"\" (Li
 "ab".repeat(3)                // ababab
 ```
 
-If you forget, the compiler tells you:
+If a parameter is inside parentheses, you get this error:
 
 ```
 error: an external's parameters are replaced only outside parentheses, so 'this' in (List.init times (fun _ -> this)) isn't; write a function applied to it, as (fun x -> ...) this
@@ -61,8 +61,8 @@ If an external changes the value it's given, mark it `@Mutating`:
 @Mutating external Table<K, V>.put(key: K, value: V): Unit = "Hashtbl.replace this key value"
 ```
 
-A function that calls it on a table it was given has to be `@Mutating` too, because the change is
-visible to the caller:
+A function that calls it on a table it was given is `@Mutating` too, because the caller can see the
+change:
 
 ```fckt
 @Mutating remember(table: Table<String, Int>, word: String) = table.put(word, 1)
@@ -81,7 +81,7 @@ countOf(words: List<String>, word: String): Int = {
 countOf(["a", "b", "a"], "a")   // 2
 ```
 
-If `countOf` returned the table instead, it would have to declare `@Mutating`.
+If `countOf` returned the table instead, it would need `@Mutating`.
 
 ## Using OCaml packages
 

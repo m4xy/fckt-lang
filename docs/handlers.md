@@ -24,7 +24,8 @@ Every `now()` called inside the block, however deep, gets its answer from this h
 
 ## Handling with a module
 
-A module that follows the effect's spec can handle it too. Put the block straight after the
+A [module that follows the effect's spec](/specs-and-functors) can handle it too. An effect's
+operations make up its spec. Put the block straight after the
 module's name:
 
 ```fckt
@@ -147,10 +148,10 @@ parse(["a=1", "b=2"])           // Ok([(a, 1), (b, 2)])
 parse(["a=1", "oops", "c"])     // Error(no '=' in 'oops')
 ```
 
-The first failing line ends the whole block, without passing results up by hand. The standard
+The first failing line ends the whole block, so you don't have to pass errors up by hand. The standard
 library's `attempt` is this handler.
 
-`fail` returns `Nothing`, a type with no values, so it can never be resumed. Trying is an error:
+`fail` returns `Nothing`, a type with no values, so it can never be resumed. If you try, you get an error:
 
 ```
 error: type mismatch: expected Nothing but found Int

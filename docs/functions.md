@@ -1,7 +1,7 @@
 # Functions
 
-Functions are how you do almost everything in fckt. This page covers declaring them, calling them,
-passing them around, and adding them to existing types.
+This page covers declaring functions, calling them, passing them around, and adding them to existing
+types.
 
 ## Declaring a function
 
@@ -11,15 +11,15 @@ Write the function's name, its parameters in parentheses, then `=` and the expre
 sum(a: Int, b: Int): Int = a + b
 ```
 
-The `: Int` after the parameters is the return type. You can leave it out, and fckt works it out
+The `: Int` after the parameters is the return type. If you leave it out, it's worked out
 from the body:
 
 ```fckt
 double(x: Int) = x * 2
 ```
 
-Parameters always need their types. Writing the return type is still worth it on functions other
-code relies on, because it documents what they promise.
+Parameters always need their types. It's still worth writing the return type on functions that other
+code relies on, because it shows at a glance what they give back.
 
 ## Blocks
 
@@ -57,7 +57,7 @@ greet("Ada", punctuation = ".")       // Hello, Ada.
 greet("Ada", "Hi", punctuation = "?") // Hi, Ada?
 ```
 
-Arguments in order come first, then named ones.
+Pass the arguments in order first, then the named ones.
 
 ## Order and recursion
 
@@ -84,8 +84,11 @@ first<A>(xs: List<A>, fallback: A): A = when (xs) {
 first(["a", "b"], "none")       // a
 ```
 
-Usually fckt works out the type arguments from what you pass. When nothing tells it, give them
-yourself:
+The `when` here checks whether the list is empty. [Control flow](/control-flow#lists) explains list
+patterns like `[x, *_]`.
+
+`A` is worked out from the arguments you pass. An empty map has no arguments, so you write its
+types in angle brackets after the name:
 
 ```fckt
 import fckt.collections.Maps.*
@@ -95,8 +98,10 @@ empty = emptyMap<String, Int>()
 
 ## Functions as values
 
-You can pass a function to another function. The parameter's type says what the function takes and
-returns:
+You can pass a function to another function. A function's type is written as its parameter types in
+parentheses, then `->`, then what it gives back, so `(Int) -> Int` is a function that takes an `Int`
+and gives back an `Int`. `twice` takes one of those and calls it two times, here with `double` from
+the top of this page:
 
 ```fckt
 twice(f: (Int) -> Int, x: Int): Int = f(f(x))
@@ -124,7 +129,10 @@ of `f` at `x` is roughly `(f(x + h) - f(x)) / h` when `h` is very small. `deriva
 returns a new function that works out that slope at any `x`:
 
 ```fckt
-derivative(f: (Float) -> Float, h: Float = 0.000001): (Float) -> Float =
+derivative(
+  f: (Float) -> Float,
+  h: Float = 0.000001,
+): (Float) -> Float =
   x -> (f(x + h) - f(x)) / h
 
 square(x: Float) = x * x
@@ -237,7 +245,8 @@ Money(2) * 3                    // Money(value=6)
 3 |> double                     // 6
 ```
 
-If the function on the right is given some arguments already, the value on the left goes last:
+If you give the function on the right some of its arguments, the value on the left becomes the last
+one:
 
 ```fckt
 subtractFrom(a: Int, b: Int) = a - b

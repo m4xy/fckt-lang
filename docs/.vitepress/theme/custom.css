@@ -79,6 +79,9 @@
 :root {
   --fckt-glass: linear-gradient(135deg, #8FF0BE 0%, #1FBFAE 30%, #3A8FD6 58%, #9A8AE0 80%, #D97BC8 100%);
   --fckt-glass-deep: linear-gradient(135deg, #1F6B55 0%, #0F5E5C 30%, #1E4F82 58%, #4A4590 80%, #7A3C70 100%);
+  /* Left to right, for text, so a short word gets every colour. */
+  --fckt-glass-across: linear-gradient(90deg, #8FF0BE 0%, #1FBFAE 30%, #3A8FD6 58%, #9A8AE0 80%, #D97BC8 100%);
+  --fckt-glass-deep-across: linear-gradient(90deg, #1F6B55 0%, #0F5E5C 30%, #1E4F82 58%, #4A4590 80%, #7A3C70 100%);
 }
 
 /* A sea glass outline: a 1px gradient border that follows the element's corners. */
@@ -380,4 +383,38 @@
   .VPHome .VPHero .image-src {
     max-width: 440px;
   }
+}
+
+/* Where you are, in the sidebar, the outline and the top bar, in the logo's gradient: the deep
+   shades on light, as the ƒ is, and the bright sea glass on dark. */
+.VPSidebarItem.is-active > .item .link > .text,
+.VPDocOutlineItem .outline-link.active,
+.VPNavBarMenuLink.active {
+  background-image: var(--fckt-glass-deep-across);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+.dark .VPSidebarItem.is-active > .item .link > .text,
+.dark .VPDocOutlineItem .outline-link.active,
+.dark .VPNavBarMenuLink.active {
+  background-image: var(--fckt-glass-across);
+}
+/* The gradient spans the words, not the whole row or the link's padding. */
+.VPSidebarItem.is-active > .item .link > .text {
+  flex-grow: 0;
+}
+.VPNavBarMenuLink.active {
+  background-origin: content-box;
+}
+.VPDocOutlineItem .outline-link.active {
+  width: fit-content;
+}
+.VPSidebarItem.is-active > .item > .indicator,
+.VPDocAsideOutline .outline-marker {
+  background: var(--fckt-glass-deep) !important;
+}
+.dark .VPSidebarItem.is-active > .item > .indicator,
+.dark .VPDocAsideOutline .outline-marker {
+  background: var(--fckt-glass) !important;
 }

@@ -165,7 +165,12 @@ value. The `fold` block takes two values, so it names them, `acc` and `x`, befor
 If a list holds pairs, a lambda with two parameters takes each pair apart:
 
 ```fckt
-[(1, "one"), (2, "two")].map((n, word) -> word)   // [one, two]
+[(1, "one"), (2, "two")].map((number, word) -> "$number is $word")   // [1 is one, 2 is two]
+```
+
+If you only need one half of the pair, use `_` for the other:
+
+```fckt
 [(1, "one"), (2, "two")].map((_, word) -> word)   // [one, two]
 ```
 

@@ -63,7 +63,7 @@ async function share() {
   <div class="fckt-playground">
     <div class="fckt-playground-bar">
       <button type="button" class="fckt-run" :disabled="running" @click="start">
-        <svg aria-hidden="true" viewBox="0 0 16 16" width="12" height="12"><path d="M4 2.5v11l9-5.5z" fill="currentColor" /></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L7.5 3.64A1 1 0 0 0 6 4.5z" /></svg>
         {{ running ? 'Running…' : 'Run' }}
       </button>
       <label class="fckt-examples">
@@ -81,6 +81,7 @@ async function share() {
         <FcktEditor v-model="code" label="Program" :min-lines="18" @run="start" />
       </div>
       <div class="fckt-playground-output" :class="outcome?.kind" role="status" aria-live="polite">
+        <span class="fckt-output-label">{{ outcome && outcome.kind !== 'printed' ? 'error' : 'output' }}</span>
         <p v-if="running" class="fckt-quiet">Compiling and running…</p>
         <p v-else-if="!outcome" class="fckt-quiet">What the program prints shows here. The first run loads the compiler, so it takes a moment longer.</p>
         <pre v-else-if="outcome.text">{{ outcome.text }}</pre>

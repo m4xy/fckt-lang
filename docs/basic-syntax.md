@@ -162,8 +162,8 @@ maxOf(a: Int, b: Int) = if (a > b) a else b
 
 ## when
 
-Use `when` to check a value against several possibilities. It has to handle every case, and if
-one is missing, the error says which:
+Use `when` to check a value against several possibilities, with a branch for each case. If you
+leave one out, the error says which:
 
 ```fckt
 area(shape: Shape): Float = when (shape) {

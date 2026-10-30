@@ -78,7 +78,7 @@ type Shape {
 Circle(1.0)                     // Circle(radius=1.0)
 ```
 
-To find out which case you have, use [`when`](/control-flow#when). It has to handle every case.
+To find out which case you have, use [`when`](/control-flow#when), with a branch for each one.
 
 ### Enumerations
 

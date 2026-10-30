@@ -37,10 +37,10 @@ describe(2)                     // small
 Separate patterns with commas to share one branch, as `1, 2, 3` does. `else` matches anything the
 branches above it didn't.
 
-### Every case has to be handled
+### Covering every case
 
-A `when` has to cover every possible value. If it doesn't, it won't compile, and the error tells
-you what's missing. Leave out a case of `Shape`:
+A `when` needs a branch for every possible value. If you leave one out, the error tells you what's
+missing. Here's one without a branch for `Square`:
 
 ```fckt
 type Shape {
@@ -59,8 +59,7 @@ area(shape: Shape): Float = when (shape) {
 error: this when doesn't cover Square(_); add it, or an else
 ```
 
-When you add a case to a type later, every `when` that doesn't handle it shows up as an error, so
-you can find them all.
+If you add a case to a type later, each `when` that's missing it shows up as an error.
 
 Numbers and strings have too many values to list, so a `when` on them needs an `else`:
 

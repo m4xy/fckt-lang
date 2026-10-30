@@ -64,7 +64,7 @@ these ideas make code easier to change and harder to break, in any language. The
 learned through languages that look very different from what most programmers use day to day.
 
 fckt teaches the same ideas without the culture shock. Values don't change unless you mark them
-`var`. A `when` has to handle every case of a type. Missing values are an `Option`, not `null`.
+`var`. A `when` has a branch for every case of a type. Missing values are an `Option`, not `null`.
 Each of these is a small step from code you've written before, and together they add up to a
 functional style.
 

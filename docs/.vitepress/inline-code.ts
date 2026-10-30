@@ -3,7 +3,7 @@ import { createHighlighter } from 'shiki'
 
 // Inline code is fckt unless it's plainly something else: a path, a file, a flag or a shell command.
 const notFckt = [
-  /\//,
+  /^[\w.~-]*\/[\w./-]*$/,
   /\.(fk|fki|ml|md|svg|json|sh|ts|mts)$/,
   /^-/,
   /^(kiln|fckt|ocaml|ocamlopt|ocamlfind|opam|git|npm|cd|export|brew)(\s|$)/,

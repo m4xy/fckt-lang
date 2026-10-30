@@ -174,12 +174,6 @@
   border-color: var(--vp-code-copy-code-hover-border-color);
   background-color: var(--vp-code-copy-code-hover-bg);
 }
-.fckt-run[aria-busy='true'] svg {
-  animation: fckt-pulse 1s ease-in-out infinite;
-}
-@keyframes fckt-pulse {
-  50% { opacity: 0.35; }
-}
 .fckt-playground-bar {
   display: flex;
   flex-wrap: wrap;
@@ -261,6 +255,11 @@
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
   mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
   animation: fckt-spin 0.9s linear infinite;
+}
+/* On the Run button, which is the gradient already, the ring is the button's ink, fading round. */
+.fckt-spinner.on-glass {
+  margin: 0;
+  background: conic-gradient(from 0deg, transparent, currentColor);
 }
 @keyframes fckt-spin {
   to { transform: rotate(1turn); }

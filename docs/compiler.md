@@ -10,8 +10,8 @@ fckt compiles your code to OCaml. You'll need OCaml 5.1 or newer to run what it 
 Give `fckt` the file with your `main` in it:
 
 ```sh
-fckt main.fk          # writes main.ml
-ocaml main.ml         # runs it
+fckt main.fk                         # writes main.ml
+ocaml -I +unix unix.cma main.ml      # runs it, with OCaml's unix library
 ```
 
 By default the output goes next to the input, with a `.ml` extension. Use `-o` to choose another

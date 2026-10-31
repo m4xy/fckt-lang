@@ -10,20 +10,19 @@ build tool.
 
 You'll need:
 
-- **JDK 17 or newer**, to build the compiler.
-- **OCaml 5.1 or newer**, to run the programs it produces. On macOS, run `brew install ocaml`. On
-  other systems, install it with [opam](https://opam.ocaml.org/doc/Install.html).
+- **OCaml 5.1 or newer**, which builds fckt and runs the programs it produces. On macOS, run
+  `brew install ocaml`. On other systems, install it with
+  [opam](https://opam.ocaml.org/doc/Install.html).
 - **git**.
 
-fckt is built together with [Kastor](https://github.com/m4xy/kastor), so clone both repositories
-into the same folder:
+fckt's compiler is written in fckt. Its repository includes the compiler as OCaml it wrote of
+itself, so OCaml alone can build it:
 
 ```sh
-git clone https://github.com/m4xy/kastor.git
 git clone https://github.com/m4xy/fckt.git
 cd fckt
-./gradlew installDist
-export PATH="$PWD/build/install/fckt/bin:$PATH"
+./bootstrap.sh
+export PATH="$PWD/build/boot/bin:$PATH"
 ```
 
 To check that it worked, ask fckt for its version:
@@ -45,13 +44,17 @@ main() = println("Hello, fckt!")
 Then compile it and run the result:
 
 ```sh
-fckt hello.fk        # writes hello.ml
-ocaml hello.ml
+fckt hello.fk                          # writes hello.ml
+ocaml -I +unix unix.cma hello.ml
 ```
 
 ```
 Hello, fckt!
 ```
+
+`ocaml` runs the OCaml that fckt wrote. It needs OCaml's `unix` library, which fckt's standard
+library uses for files and programs, so `-I +unix unix.cma` loads it first. kiln, below, does this
+for you.
 
 The `import` line gives you `println`, which comes from the standard library's `Console`. You'll
 find out why printing needs an import in [Basic syntax](/basic-syntax#effects).
@@ -63,13 +66,21 @@ code, runs it, runs your tests, and publishes libraries.
 
 ### Install kiln
 
-kiln is written in fckt, so it's built with the `fckt` you just installed:
+kiln is written in fckt, so it's built with the `fckt` you just built:
 
 ```sh
 git clone https://github.com/m4xy/kiln.git
 cd kiln
 ./bootstrap.sh
 export PATH="$HOME/.kiln/bin:$PATH"
+```
+
+Then let kiln install fckt beside itself, in `~/.kiln/bin`, so you need only one folder on your
+`PATH`:
+
+```sh
+cd ../fckt/compiler
+kiln install
 ```
 
 ### Set up the project

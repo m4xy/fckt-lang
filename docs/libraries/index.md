@@ -14,6 +14,7 @@ These libraries aren't part of the standard library. You add each one to a proje
 | [Markdown](/libraries/markdown) | Turning Markdown into HTML. |
 | [Dates and times](/libraries/time) | Calendar dates, weekdays, time zones as offsets, and ISO 8601. |
 | [Logging](/libraries/log) | Logging as an effect, to the terminal, as JSON, or into a test. |
+| [CSV](/libraries/csv) | Reading and writing comma-separated data, by row or by column name. |
 | [Testing](/testing) | Writing and running tests with fk-tests. |
 
 To see several of them working together, read [A web service](/examples/url-shortener), which

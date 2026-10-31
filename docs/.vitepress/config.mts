@@ -61,6 +61,7 @@ export default defineConfig({
             { text: 'Markdown', link: '/libraries/markdown' },
             { text: 'Dates and times', link: '/libraries/time' },
             { text: 'Logging', link: '/libraries/log' },
+            { text: 'CSV', link: '/libraries/csv' },
           ],
         },
       ],
